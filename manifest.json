@@ -1,0 +1,26 @@
+{
+  "version": "0.3.4",
+  "manifest_version": 2	,
+  "name": "Domain Switcher",
+  "description": "This extension add a right click context menu to switch domains",
+  "permissions": [
+    "contextMenus"
+    ,"background"
+    ,"tabs"
+  ],
+  "options_page": "options/index.html",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "background.js"
+      ,"options/js/manifest.js"
+      ,"options/js/vendor/underscore.js"
+      ,"options/js/vendor/zepto.js"
+      ,"options/js/background.js"
+    ]
+  },
+  "icons": {
+	"48": "lib/icon/swap.png"
+  }
+}
