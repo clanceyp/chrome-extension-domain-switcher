@@ -32,17 +32,18 @@
 
 				<form class="settings__form">
 				<fieldset id="sectionAbout" class="settings__section relative">
-					<span id="forkongithub"><a href="https://github.com/clanceyp/chrome-extension-settings-form">Fork me on GitHub</a></span>
+					<span id="forkongithub"><a href="https://github.com/clanceyp/chrome-extension-domain-switcher" data-href="https://github.com/clanceyp/chrome-extension-settings-form">Fork me on GitHub</a></span>
 					<div>
 
 						<h2>About</h2>
 						<p><strong class="appName"></strong></p>
 						<p>version: <strong class="appVersion"></strong></p>
 						<h3>Getting started</h3>
-						<p>About your extension...</p>
+						<p>Switch domain extension adds links to the right click context menu. It uses simple regular expressions to enable you to match domains and replace sections. This extension was developed primarily for use when you are working on a large project with many test servers.</p>
+						<h3>Setting Form</h3>
 						<p>
-							For more information about the chrome-extension-options-form.
-							<a href="https://github.com/clanceyp/">See github for details</a>
+							This setting form is a vanilla implementation of
+							<a href="https://github.com/clanceyp/chrome-extension-settings-form">chrome-extension-options-form</a>
 						</p>
 						<p>
 							<a href="/options/test/jasmine/SpecRunner.html">Jasmine Spec Runner</a>
@@ -50,14 +51,11 @@
 						<iframe src="/options/test/jasmine/SpecRunner.html" style="width: 100%;height: 110px" frameborder="no"></iframe>
 						<h4>Reset settings</h4>
 						<p>
-							Items with a default value can be reset by double clicking on
-							the element.
-						</p>
-						<p>
 							To reset all the setting back to the default setting, click on the
 							"Reset default options" button.
 						</p>
-						<p><input type="reset" value="Reset default options" /> </p>
+						<p>WARNING: this extension has no presets values, so  resetting will just clear your settings.</p>
+						<p><input type="reset" value="Reset default options" /></p>
 					</div>
 				</fieldset>
 

@@ -1,7 +1,7 @@
 {
-  "version": "0.3.4",
+  "version": "0.3.5",
   "manifest_version": 2	,
-  "name": "Domain Switcher",
+  "name": "Switch Domain",
   "description": "This extension add a right click context menu to switch domains",
   "permissions": [
     "contextMenus"
