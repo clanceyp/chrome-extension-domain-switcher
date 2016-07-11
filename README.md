@@ -1,1 +1,1 @@
-# chrome-extension-domain-switcher
+# Domain Switcher
