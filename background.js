@@ -17,14 +17,16 @@ function loadMenu() {
 }
 
 function loadSubMenu(tabUrl){
+    if (!options.getLocalStore("online", false, "boolean")){
+        return
+    }
     var items = options.getLocalStore("key-value-pair-domain", "{}", "json"),
-        online = options.getLocalStore("online", false, "boolean"),
         i= 0,
         len = items.length;
 
     window.menuItems = [];
-    console.log("items", items, tabUrl);
-    if (!online && !items){
+
+    if (!items){
         return;
     } else {
     }
@@ -34,7 +36,8 @@ function loadSubMenu(tabUrl){
             arr = items[i].value.split(" "),
             id = "ds-" + performance.now(),
             url = tabUrl,
-            i, len;
+            i, len,
+            sorted = [];
         if (url.match(re)) {
             console.log("match found", re, arr)
             url = url.replace(re, function () {
@@ -57,18 +60,18 @@ function loadSubMenu(tabUrl){
             console.log("no match", re, url)
         }
     }
+    sorted = _.sortBy(menuItems, "title");
 
-    menuItems.push({
+    sorted.push({
         "id": "settings-"+ performance.now(),
         "url": "/options/index.html",
         "title": "Settings"
     })
 
-    for (i=0,len = menuItems.length ; i<len; i++){
-        console.log('adding context menu', menuItems[i].title)
+    for (i=0,len = sorted.length ; i<len; i++){
         chrome.contextMenus.create({
-            "title": menuItems[i].title,
-            "id": menuItems[i].id,
+            "title": sorted[i].title,
+            "id": sorted[i].id,
             "parentId": "domain-switcher"
         });
     }
@@ -78,10 +81,12 @@ function loadSubMenu(tabUrl){
 function loadSubMenuAndClean(){
     console.log('removing all')
     chrome.contextMenus.removeAll(function (){
-        loadMenu();
-        chrome.tabs.getSelected(null,function(tab) {
-            loadSubMenu(tab.url);
-        });
+        if (options.getLocalStore("online", false, "boolean")) {
+            loadMenu();
+            chrome.tabs.getSelected(null,function(tab) {
+                loadSubMenu(tab.url);
+            });
+        }
     });
 }
 

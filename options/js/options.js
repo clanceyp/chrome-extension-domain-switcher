@@ -146,8 +146,9 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
         },
         resetForm:function(){
             backgroundPage.options.resetLocalStore();
-            $('form fieldset').empty();
-            optionsForm.setupForm(true);
+            location.reload();
+            //$('form fieldset').empty();
+            //optionsForm.setupForm(true);
         },
         createRow: {
             basic: function(element){
@@ -213,7 +214,7 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
                 data.cols = _.find(data, function(d){ return !!d["cols"]})["cols"];// legacy hack
                 if (id.match(/\s/)){
                     alert("Sorry, "+ element.name +" must have an id which just contains word characters only");
-                } else if (document.querySelectorAll("#"+ id).length > 1){
+                } else if (document.querySelectorAll("#"+ id).length > 0){
                     alert("Sorry, "+ element.name +" must have a unique id");
                 } else if (!data || !data.cols || data.cols.length !==2 || !data.cols[0].title || !data.cols[1].title  ){
                     alert("Sorry, please specify a title for each column, in element "+ id);
@@ -231,7 +232,9 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
                         .data("type", "key-value");
 
                     $("#"+ id).append('<table id="table-'+id+'" class="data">' + caption + '<tr><th>'+ data.cols[0].title +'</th><th>'+ data.cols[1].title +'</th></tr><tbody data-bind="foreach: pairs"><tr><td><input type="text" class="displayonly filterId" data-bind="value: key" /></td><td><input type="text" class="displayonly filterTitle" data-bind="value: value" /></td><td><img class="displayonly" data-bind="click: $root.removePair"  src="/options/i/trash.png"/></td></tr></tbody><tfoot><tr><td></td><td></td><td><button class="displayonly" data-bind="click: addPair">Add pair</button></td></tr></tfoot></table>');
-                    ko.applyBindings(new optionsForm.ColumnInfoViewModel(element), document.getElementById("table-"+id));
+                    if (document.querySelectorAll("#table-"+ id).length === 1){
+                        ko.applyBindings(new optionsForm.ColumnInfoViewModel(element), document.getElementById("table-"+id));
+                    }
                 }
             },
             select: function(element){
@@ -266,6 +269,14 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
                 if (element.className){
                     $('#'+ element.id ).addClass( element.className );
                 }
+            },
+            external: function(element){
+                var insert = $(element.querySelector);
+                if (insert.length===0){
+                    insert =  "<p>Sorry, invalid 'querySelector' "+ element.querySelector +" on item '"+ element.name +"'</p>";
+                }
+                $(element.parent)
+                    .append( insert );
             }
         },
         setupForm:function(isReset){
@@ -282,6 +293,10 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
                 if ( !(type === "fieldset" || type === "title" ) && !item.name){
                     alert('Your form elements must have a name attribute');
                     continue;
+                }
+                if (!value && item.prePopulate){
+                    backgroundPage.options.setLocalStore(item.name, item.prePopulate);
+                    value = item.prePopulate;
                 }
                 element = {
                     id: id,
@@ -314,6 +329,8 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
                            alert("Sorry, duplicate id found "+ id +" please check your options manifest file");
                         }
                     }
+                } else if (element.type === "inject-external"){
+                    optionsForm.createRow.external(element);
                 }
             }
         },

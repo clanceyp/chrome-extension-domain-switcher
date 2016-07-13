@@ -163,3 +163,6 @@ table.data input[type=text]{
         width: auto
     }
 }
+pre {
+    tab-size: 2;
+}

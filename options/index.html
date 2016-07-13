@@ -7,6 +7,8 @@
 	<script src="/options/js/vendor/underscore.js"></script>
 	<script src="/options/js/manifest.js"></script>
 	<script src="/options/js/options.js"></script>
+	<script src="/options/js/test-regexp.js"></script>
+
 	<link rel="stylesheet" href="/options/css/help.css"/>
 	<link rel="stylesheet" href="/options/css/options.css"/>
 
@@ -59,7 +61,46 @@
 					<span id="forkongithub"><a href="https://github.com/clanceyp/chrome-extension-domain-switcher" data-href="https://github.com/clanceyp/chrome-extension-settings-form">Fork me on GitHub</a></span>
 				</fieldset>
 
+				<div id="aem-help">
+					<h3>Example usage</h3>
+					<p>
+						By default this extension loads with an example AEM setup above, where you have twelve deployments per stack
+						(three each; author, publish, dispatcher and edge) in DEV, UAT and PRE-PROD environments. <br/>
+						There maybe any number of stacks depending on the number of development streams (e.g. dev1, dev2, dev3 etc...)
+					</p>
+					<p>Given that you are viewing a page on the dispatcher on dev1 (web.dev1.foo-bar-baz.com),
+						the links generated in the context menu would be
+						to; web.uat1..., web.preprod1..., author.dev1..., publish.dev1... and www.incapsula.dev1... (i.e other web instances in the stack
+						and other servers in the dev env.
+					</p>
+					<pre><code>
+	author.dev1.foo-bar-baz.com:4502
+	publish.dev1.foo-bar-baz.com:4503
+	web.dev1.foo-bar-baz.com
+	www.incapsula.dev1.foo-bar-baz.com
 
+	author.uat1.foo-bar-baz.com:4502
+	publish.uat1.foo-bar-baz.com:4503
+	web.uat1.foo-bar-baz.com
+	www.incapsula.uat1.foo-bar-baz.com
+
+	author.preprod1.foo-bar-baz.com:4502
+	publish.preprod1.foo-bar-baz.com:4503
+	web.preprod1.foo-bar-baz.com
+	www.incapsula.preprod1.foo-bar-baz.com
+
+					</code></pre>
+					<p>
+						For RegExp help see <a href="https://regex101.com/">regex101.com</a>
+					</p>
+					<p class="test">
+						<input name="test__input" style="width: 40%;" placeholder="http://publish.dev1.foo-bar-baz.com:4503/somepage.html"> <button class="test__button">Test settings</button>
+						<ul class="test__results">
+
+						</ul>
+					</p>
+
+				</div>
 
 				</form>
 			</main>
