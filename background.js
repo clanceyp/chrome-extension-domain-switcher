@@ -1,162 +1,93 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
-// The onClicked callback function.
 function onClickHandler(info, tab) {
-  if (info.menuItemId == "radio1" || info.menuItemId == "radio2") {
-    console.log("radio item " + info.menuItemId +
-                " was clicked (previous checked state was "  +
-                info.wasChecked + ")");
-  } else if (info.menuItemId == "checkbox1" || info.menuItemId == "checkbox2") {
-    console.log(JSON.stringify(info));
-    console.log("checkbox item " + info.menuItemId +
-                " was clicked, state is now: " + info.checked +
-                " (previous state was " + info.wasChecked + ")");
+    var url = _.findWhere(menuItems, { id : info.menuItemId}).url;
+    if (url) {
+        chrome.tabs.create({ url: url });
+    } else {
+        console.log("Domain Switch: no url found", url, menuItems, info);
+    }
+}
 
-  } else {
-    console.log("item " + info.menuItemId + " was clicked");
-    console.log("info: " + JSON.stringify(info));
-    console.log("tab: " + JSON.stringify(tab));
-    chrome.contextMenus.update( info.menuItemId , {"title": "kaboom"})
-    chrome.contextMenus.create({"title": "kaboom2", "id": "kabooooom"});
-  }
-};
+function loadMenu() {
+    chrome.contextMenus.create({
+        "title": "Domain switcher",
+        "id": "domain-switcher",
+        "contexts": ["page"]
+    });
+}
 
-// chrome.contextMenus.onClicked.addListener(onClickHandler);
+function loadSubMenu(tabUrl){
+    var items = options.getLocalStore("key-value-pair-domain", "{}", "json"),
+        online = options.getLocalStore("online", false, "boolean"),
+        i= 0,
+        len = items.length;
 
-//chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-//    chrome.tabs.getSelected(null,function(tab) {
-//        var tablink = tab.url;
-//        console.log( tablink );
-//    });
-//})
-// Set up context menu tree at install time.
-
-//chrome.runtime.onInstalled.addListener(function() {
-//  // Create one test item for each context type.
-//  var contexts = ["page","selection","link","editable","image","video",
-//                  "audio"];
-//
-//  for (var i = 0; i < contexts.length; i++) {
-//    var context = contexts[i];
-//    var title = "Test '" + context + "' menu item";
-//    var id = chrome.contextMenus.create({"title": title, "contexts":[context],
-//                                         "id": "context" + context});
-//    console.log("'" + context + "' item:" + id);
-//  }
-//
-//  // Create a parent item and two children.
-//  chrome.contextMenus.create({"title": "Domain switcher", "id": "parent"});
-//  chrome.contextMenus.create(
-//      {"title": "Child 1", "parentId": "parent", "id": "child1"});
-//  chrome.contextMenus.create(
-//      {"title": "Child 2", "parentId": "parent", "id": "child2"});
-//  console.log("parent child1 child2");
-//
-//  // Create some radio items.
-//  chrome.contextMenus.create({"title": "Radio 1", "type": "radio",
-//                              "id": "radio1"});
-//  chrome.contextMenus.create({"title": "Radio 2", "type": "radio",
-//                              "id": "radio2"});
-//  console.log("radio1 radio2");
-//
-//  // Create some checkbox items.
-//  chrome.contextMenus.create(
-//      {"title": "Checkbox1", "type": "checkbox", "id": "checkbox1"});
-//  chrome.contextMenus.create(
-//      {"title": "Checkbox2", "type": "checkbox", "id": "checkbox2"});
-//  console.log("checkbox1 checkbox2");
-//
-//  // Intentionally create an invalid item, to show off error checking in the
-//  // create callback.
-//  console.log("About to try creating an invalid item - an error about " +
-//      "duplicate item child1 should show up");
-//  chrome.contextMenus.create({"title": "Oops", "id": "child1"}, function() {
-//    if (chrome.extension.lastError) {
-//      console.log("Got expected error: " + chrome.extension.lastError.message);
-//    }
-//  });
-//});
-
-
-
-
-chrome.tabs.onActivated.addListener(function(tabId, selectInfo){
-    if(options.getLocalStore("online", false, "boolean")){
-        chrome.contextMenus.removeAll(function (){
-              // Create a parent item and two children.
-            chrome.tabs.getSelected(null,function(tab) {
-                loadMenu(tab.url);
+    window.menuItems = [];
+    console.log("items", items, tabUrl);
+    if (!online && !items){
+        return;
+    } else {
+    }
+    for (;i<len;i++){
+        var re = new RegExp(items[i].key),
+            matchQuote = new RegExp('"',"g"),
+            arr = items[i].value.split(" "),
+            id = "ds-" + performance.now(),
+            url = tabUrl,
+            i, len;
+        if (url.match(re)) {
+            console.log("match found", re, arr)
+            url = url.replace(re, function () {
+                var temp = arguments[0], ii = 0, len = arr.length, val, m;
+                for (; ii < len; ii=ii+1) {
+                    m = arguments[(ii + 1)];
+                    console.log( temp +".replace("+ m +","+ arr[ii].replace(matchQuote, "") +")" );
+                    val = arr[ii].replace(matchQuote, "");
+                    temp = temp.replace(m, val);
+                }
+                console.log("temp", temp)
+                return temp;
             });
+            menuItems.push({
+                "id": id,
+                "url": url,
+                "title": url.split("//")[1].split("/").shift()
+            })
+        } else {
+            console.log("no match", re, url)
+        }
+    }
 
-            function loadMenu(tabUrl){
+    menuItems.push({
+        "id": "settings-"+ performance.now(),
+        "url": "/options/index.html",
+        "title": "Settings"
+    })
 
-                var items = options.getLocalStore("key-value-pair-domain", "{}", "json"),
-                    i= 0,
-                    len = items.length;
-                console.log("items", items);
-                var menuItems = [{
-                    "id" : "domain-switcher-settings",
-                    "label" : "Settings",
-                    "url" : "/options/index.html"
-                }];
-                for (;i<len;i++){
-                    var re = new RegExp(items[i].key),
-                        matchQuote = new RegExp('"',"g"),
-                        arr = items[i].value.split(" "),
-                        id = "ds-" + performance.now(),
-                        url = tabUrl;
-                    if (url.match(re)) {
-                        url = url.replace(re, function () {
-                            var temp = arguments[0], ii = 0, len = arr.length, val, m;
-                            for (; ii < len; ii=ii+1) {
-                                m = arguments[(ii + 1)];
-                                val = arr[ii].replace(matchQuote, "");
-                                temp = temp.replace(m, val);
-                            }
-                            return temp;
-                        });
-                        menuItems.push({
-                           "id": id,
-                            "url": url,
-                            "title": url.split("//")[1].split("/").shift()
-                        })
-                    }
-                }
-                console.log("menuItems", menuItems)
-                chrome.contextMenus.create({
-                    "title": "Domain switcher",
-                    "id": "domain-switcher"
-                });
-                for (var i=1,len = menuItems.length ; i<len; i++){
-                    chrome.contextMenus.create({
-                        "title": menuItems[i].title,
-                        "id": menuItems[i].id,
-                        "parentId": "domain-switcher"
-                    });
-                }
-                chrome.contextMenus.create({
-                    "title": "Settings",
-                    "id": "domain-switcher-settings",
-                    "parentId": "domain-switcher"
-                });
-
-                chrome.contextMenus.onClicked.addListener(function(info, tab){
-                    // console.log("boom", info, tab);
-                    //var url = urls[info.menuItemId];
-                    var url = _.findWhere(menuItems, { id : info.menuItemId}).url;
-                    if (url) {
-                        chrome.tabs.create({ url: url });
-                    }
-                });
-
-            }
-
+    for (i=0,len = menuItems.length ; i<len; i++){
+        console.log('adding context menu', menuItems[i].title)
+        chrome.contextMenus.create({
+            "title": menuItems[i].title,
+            "id": menuItems[i].id,
+            "parentId": "domain-switcher"
         });
     }
-})
+    window.menuItems = menuItems;
+}
 
+function loadSubMenuAndClean(){
+    console.log('removing all')
+    chrome.contextMenus.removeAll(function (){
+        loadMenu();
+        chrome.tabs.getSelected(null,function(tab) {
+            loadSubMenu(tab.url);
+        });
+    });
+}
 
+chrome.contextMenus.onClicked.addListener(onClickHandler);
 
+chrome.runtime.onInstalled.addListener(loadMenu);
+
+chrome.tabs.onActivated.addListener(loadSubMenuAndClean);
 

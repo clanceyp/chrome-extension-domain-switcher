@@ -384,6 +384,17 @@ $(document).ready(function(){
     $(document).on('click', ".settings__navigation-link", optionsForm.navigate);
     $(document).on('change', ".settings__form-item--range", optionsForm.handleRangeChange);
     $(document).on('click', "[data-custom-event]", function(){alert("Hello, I'm a custom event")});
+    $(document).on('blur', "[data-bind='value: key']", function(e){
+        var $el = $(e.target), text = $el.val(), re, ok = true, outline;
+        try {
+            re = new RegExp(text);
+        } catch(e){
+            ok = false;
+        } finally {
+            outline = "0 0 3px 2px "+ (ok ? "rgba(100, 245, 100, 0.5)" : "rgba(245, 100, 100, 0.5)");
+            $el.css("box-shadow", outline );
+        }
+    });
     optionsForm.init(window);
 });
 
