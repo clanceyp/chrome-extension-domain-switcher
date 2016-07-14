@@ -1,12 +1,12 @@
 
 var DEBUG = true,
-	AEMPRESET = '[{"key":"(cms|pub)1.*?telegraph.co.uk(:450.)","value":"\\"web\\" \\"\\""},{"key":"(cms|web)1.*?telegraph(.co.uk:4502|.co.uk)","value":"\\"pub\\" \\".co.uk:4503\\""},{"key":"(web|pub)1.*?telegraph(.co.uk|.co.uk:4503)","value":"\\"cms\\" \\".co.uk:4502\\""},{"key":"(http://)(web1|pub1|cms1)(.*?)(test)\\\\d.(.*?)telegraph(.co.uk|.co.uk:450.)(/secure)","value":"\\"https://\\" \\"\\" \\"\\" \\"secure\\" \\"\\" \\".co.uk\\" \\"/secure\\""},{"key":"www.(facebook).(com)","value":"\\"bitbucket\\" \\"co.uk\\""}]',
+	AEMPRESET = '[]',
 	OPTIONS = {
 		FORMS : {
 			"options" : [
 				{"type":"fieldset", "label":"Settings", "id":"basicSettings", "defaultSection":"true"},
 				{"name":"online", "label":"Enabled", "type":"checkbox", "value": "true", parent:'basicSettings' },
-				{"name":"key-value-pair-domain", "id":"key-value-pair-domain", "label":"URI List", "type" : "key-value", tag:"div", parent:'basicSettings', prePopulate: AEMPRESET, data : [{cols:[{"title":"RegExp"},{"title":"Replace Array"}]}]},
+				{"name":"key-value-pair-domain", "id":"key-value-pair-domain", "label":"URI List", "type" : "key-value", tag:"div", parent:'basicSettings', prePopulate: AEMPRESET, data : [{cols:[{"title":"RegExp"},{"title":"Replace Value"}]}]},
 				{"name":"help-text", type: "inject-external", querySelector : "#aem-help"}
 			]
 		},
@@ -23,10 +23,6 @@ var DEBUG = true,
 		}
 	};
 
-
-// works
-// [{"key":"(cms|pub)1.*?telegraph.co.uk(:450.)","value":"\"web\" \"\""},{"key":"(cms|web)1.*?telegraph(.co.uk:4502|.co.uk)","value":"\"pub\" \".co.uk:4503\""},{"key":"(web|pub)1.*?telegraph(.co.uk|.co.uk:4503)","value":"\"cms\" \".co.uk:4502\""},{"key":"(http://)(web1|pub1|cms1)(.*?)(test)\\d.(.*?)telegraph(.co.uk|.co.uk:450.)(/secure)","value":"\"https://\" \"\" \"\" \"secure\" \"\" \".co.uk\" \"/secure\""},{"key":"www.(facebook).(com)","value":"\"bitbucket\" \"co.uk\""}]
-// [{"key":"(cms|pub)1.*?telegraph.co.uk(:450.)","value":"\"web\" \"\""},{"key":"(cms|web)1.*?telegraph(.co.uk:4502|.co.uk)","value":"\"pub\" \".co.uk:4503\""},{"key":"(web|pub)1.*?telegraph(.co.uk|.co.uk:4503)","value":"\"cms\" \".co.uk:4502\""},{"key":"(http://)(web1|pub1|cms1)(.*?)(test)\d.(.*?)telegraph(.co.uk|.co.uk:450.)(/secure)","value":"\"https://\" \"\" \"\" \"secure\" \"\" \".co.uk\" \"/secure\""},{"key":"www.(facebook).(com)","value":"\"bitbucket\" \"co.uk\""}]
 
 
 /*
@@ -48,14 +44,6 @@ example url pattern
  publish.preprod1.my-domain.com:4503
  web.preprod1.my-domain.com
  www.incapsula.preprod1.my-domain.com
-
-
-
-
-
-
-
-
 
 
  */

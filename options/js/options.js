@@ -8,7 +8,7 @@
 
 var backgroundPage = chrome.extension.getBackgroundPage(),
     HELP = OPTIONS.HELP,
-    DEBUG = window.DEBUG||true,
+    DEBUG = window.DEBUG,
     DEFAULT_VALUES = OPTIONS.DEFAULT_VALUES,
     FORMS = OPTIONS.FORMS,
     optionsForm = {
@@ -82,7 +82,7 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
             $(".settings__navigation-item--"+ defaultSectionId).addClass("selected");
         },
         getItemValue:function(key){
-            console.log("do options exist?", !!backgroundPage.options );
+            console.log("key", key );
             return backgroundPage.options.getLocalStore(key);
         },
         saveItemValue:function(target){
@@ -392,28 +392,17 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
 
     window.optionsForm = optionsForm;
 
-$(document).ready(function(){
-    $(document).on('dblclick', "*.allowDblClickReset", optionsForm.handleDblClick);
-    $(document).on('click', "input:not([data-display-only]), button:not([data-display-only])", optionsForm.handleClick);
-    $(document).on('keyup', "input:not([data-display-only]), textarea:not([data-display-only])", optionsForm.handleKeyup);
-    $(document).on('change', "select, input:not([data-display-only])", optionsForm.handleValueChange);
-    $(document).on('input', ".settings__form-item--range", optionsForm.handleRangeSlider);
-    $(document).on('click', ".settings__navigation-link", optionsForm.navigate);
-    $(document).on('change', ".settings__form-item--range", optionsForm.handleRangeChange);
-    $(document).on('click', "[data-custom-event]", function(){alert("Hello, I'm a custom event")});
-    $(document).on('blur', "[data-bind='value: key']", function(e){
-        var $el = $(e.target), text = $el.val(), re, ok = true, outline;
-        try {
-            re = new RegExp(text);
-        } catch(e){
-            ok = false;
-        } finally {
-            outline = "0 0 3px 2px "+ (ok ? "rgba(100, 245, 100, 0.5)" : "rgba(245, 100, 100, 0.5)");
-            $el.css("box-shadow", outline );
-        }
+    $(document).ready(function(){
+        $(document).on('dblclick', "*.allowDblClickReset", optionsForm.handleDblClick);
+        $(document).on('click', "input:not([data-display-only]), button:not([data-display-only])", optionsForm.handleClick);
+        $(document).on('keyup', "input:not([data-display-only]), textarea:not([data-display-only])", optionsForm.handleKeyup);
+        $(document).on('change', "select, input:not([data-display-only])", optionsForm.handleValueChange);
+        $(document).on('input', ".settings__form-item--range", optionsForm.handleRangeSlider);
+        $(document).on('click', ".settings__navigation-link", optionsForm.navigate);
+        $(document).on('change', ".settings__form-item--range", optionsForm.handleRangeChange);
+        $(document).on('click', "[data-custom-event]", function(){alert("Hello, I'm a custom event")});
+        optionsForm.init(window);
     });
-    optionsForm.init(window);
-});
 
 
 })(window.$, window.chrome, window.ko, window.OPTIONS, window);
