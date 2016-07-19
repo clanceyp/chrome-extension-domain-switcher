@@ -1,5 +1,8 @@
 var domainSwitcher = {
     menuItems:[],
+    menuId: "domain-switcher",
+    menuTitle: "Domain switcher",
+    menuTitleSettings: "Settings",
     onClickHandler: function(info, tab) {
         var url = _.findWhere(domainSwitcher.menuItems, { id : info.menuItemId}).url;
         if (url) {
@@ -9,11 +12,14 @@ var domainSwitcher = {
         }
     },
     loadMenu: function() {
-        console.log("menu loaded")
         chrome.contextMenus.create({
-            "title": "Domain switcher",
-            "id": "domain-switcher",
+            "title": domainSwitcher.menuTitle,
+            "id": domainSwitcher.menuId,
             "contexts": ["page"]
+        },function(){
+            chrome.tabs.getSelected(null, function(tab) {
+                domainSwitcher.loadSubMenu(tab.url);
+            });
         });
     },
     loadSubMenuAndClean: function(){
@@ -21,9 +27,6 @@ var domainSwitcher = {
         chrome.contextMenus.removeAll(function (){
             if (options.getLocalStore("online", false, "boolean")) {
                 domainSwitcher.loadMenu();
-                chrome.tabs.getSelected(null,function(tab) {
-                    domainSwitcher.loadSubMenu(tab.url);
-                });
             }
         });
     },
@@ -31,7 +34,6 @@ var domainSwitcher = {
         return !options.getLocalStore("online", false, "boolean");
     },
     loadSubMenu: function(tabUrl){
-        console.log("derro")
         if (!options.getLocalStore("online", false, "boolean")){
             return
         }
@@ -41,9 +43,9 @@ var domainSwitcher = {
         menuItems = domainSwitcher.buildSubMenuItems(tabUrl, items);
 
         menuItems.push({
-            "id": "settings-"+ performance.now(),
+            "id": domainSwitcher.menuId + "-settings",
             "url": chrome.extension.getURL("/options/index.html"),
-            "title": "Settings"
+            "title": domainSwitcher.menuTitleSettings
         });
 
         window.menuItems = menuItems;
@@ -57,7 +59,7 @@ var domainSwitcher = {
         for (;i<length;i++){
             var re = new RegExp(items[i].key),
                 val = items[i].value,
-                id = "ds-" + performance.now(),
+                id = domainSwitcher.menuId + performance.now(),
                 url = tabUrl;
             if (url.match(re)) {
                 url = url.replace(re, val);
@@ -76,7 +78,7 @@ var domainSwitcher = {
             chrome.contextMenus.create({
                 "title": menuItems[i].title,
                 "id": menuItems[i].id,
-                "parentId": "domain-switcher"
+                "parentId": domainSwitcher.menuId
             });
         }
     }

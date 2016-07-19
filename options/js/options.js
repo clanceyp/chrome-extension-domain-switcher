@@ -54,7 +54,9 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
             }
         },
         init:function(context){
-            var manifest = chrome.runtime.getManifest();
+            var manifest = chrome.runtime.getManifest(),
+                icon = ("/" + (manifest.icons ? (manifest.icons["128"] ||  manifest.icons["48"] || "") : "")).replace("//","/") ;
+
             $(".header__heading").html('<span class="appName"></span> <span class="appVersion header__heading-version"></span>');
             $(".appVersion").text(manifest.version);
             $(".appName").text(manifest.name);
@@ -63,6 +65,12 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
             optionsForm.setupNavigation();
             if (context && !context.optionsForm){
                 context.optionsForm = optionsForm;
+            }
+
+            if (icon.length > 1){
+                console.log("updating app icon", icon, document.querySelectorAll(".appIcon").length, $(".appIcon").length,  $(".appIcon").css("background-image"));
+                $(".appIcon").css("background-image", icon);
+                console.log("updated app icon to ",  document.querySelectorAll(".appIcon").length, $(".appIcon").length,  $(".appIcon").css("background-image"));
             }
         },
         setupHelp:function(){

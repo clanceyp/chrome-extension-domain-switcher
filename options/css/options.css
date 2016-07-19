@@ -101,8 +101,12 @@ h2, .settings__form-label {
     font-size: 70%;
     opacity: 0.7;
 }
-.settings__navigation:before {
+.settings__navigation {
     background-image: url(../i/cog-02.svg);
+    background-size:0;
+}
+.settings__navigation:before {
+    background-image: inherit;
     background-repeat: no-repeat;
     background-size: 100%;
     content : " ";

@@ -1,5 +1,5 @@
 {
-  "version": "0.5.2",
+  "version": "0.5.4",
   "manifest_version": 2	,
   "name": "Switch Domain",
   "description": "This extension add a right click context menu to switch domains",
@@ -22,6 +22,6 @@
     ]
   },
   "icons": {
-	"48": "lib/icon/swap.png"
+	"48": "/lib/icon/swap.png"
   }
 }
