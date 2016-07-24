@@ -34,74 +34,89 @@
 			<main class="main">
 
 				<form class="settings__form">
-				<fieldset id="sectionAbout" class="settings__section relative">
-					<div>
+					<fieldset id="sectionAbout" class="settings__section relative">
+						<div>
 
-						<h2>About</h2>
-						<p><strong class="appName"></strong></p>
-						<p>version: <strong class="appVersion"></strong></p>
-						<h3>Getting started</h3>
-						<p>Switch domain extension adds links to the right click context menu. It uses simple regular expressions to enable you to match domains and replace sections. This extension was developed primarily for use when you are working on a large project with many test servers.</p>
-						<h3>Setting Form</h3>
-						<p>
-							This setting form is a vanilla implementation of
-							<a href="https://github.com/clanceyp/chrome-extension-settings-form">chrome-extension-options-form</a>
-						</p>
-						<p>
-							<a href="/options/test/jasmine/SpecRunner.html">Jasmine Spec Runner</a>
-						</p>
-						<iframe src="/options/test/jasmine/SpecRunner.html" style="width: 100%;height: 110px" frameborder="no"></iframe>
-						<h4>Reset settings</h4>
-						<p>
-							To reset all the setting back to the default setting, click on the
-							"Reset default options" button.
-						</p>
-						<p>WARNING: this extension has no presets values, so  resetting will just clear your settings.</p>
-						<p><input type="reset" value="Reset default options" /></p>
-					</div>
-					<span id="forkongithub"><a href="https://github.com/clanceyp/chrome-extension-domain-switcher" data-href="https://github.com/clanceyp/chrome-extension-settings-form">Fork me on GitHub</a></span>
-				</fieldset>
+							<h2>About</h2>
+							<p><strong class="appName"></strong></p>
+							<p>version: <strong class="appVersion"></strong></p>
+							<h3>Getting started</h3>
+							<p>Switch domain extension adds links to the right click context menu. It uses simple regular expressions to enable you to match domains and replace sections. This extension was developed primarily for use when you are working on a large project with many test servers.</p>
+							<h3>Setting Form</h3>
+							<p>
+								This setting form is a vanilla implementation of
+								<a href="https://github.com/clanceyp/chrome-extension-settings-form">chrome-extension-options-form</a>
+							</p>
+							<p>
+								<a href="/options/test/jasmine/SpecRunner.html">Jasmine Spec Runner</a>
+							</p>
+							<iframe src="/options/test/jasmine/SpecRunner.html" style="width: 100%;height: 110px" frameborder="no"></iframe>
+							<h4>Reset settings</h4>
+							<p>
+								To reset all the setting back to the default setting, click on the
+								"Reset default options" button.
+							</p>
+							<p>WARNING: this extension has no presets values, so  resetting will just clear your settings.</p>
+							<p><input type="reset" value="Reset default options" /></p>
+						</div>
+						<span id="forkongithub"><a href="https://github.com/clanceyp/chrome-extension-domain-switcher" data-href="https://github.com/clanceyp/chrome-extension-settings-form">Fork me on GitHub</a></span>
+					</fieldset>
 
-				<div id="aem-help">
-					<h3>Example usage</h3>
-					<p>
-						By default this extension loads with an example AEM setup above, where you have twelve deployments per stack
-						(three each; author, publish, dispatcher and edge) in DEV, UAT and PRE-PROD environments. <br/>
-						There maybe any number of stacks depending on the number of development streams (e.g. dev1, dev2, dev3 etc...)
-					</p>
-					<p>Given that you are viewing a page on the dispatcher on dev1 (web.dev1.foo-bar-baz.com),
-						the links generated in the context menu would be
-						to; web.uat1..., web.preprod1..., author.dev1..., publish.dev1... and www.incapsula.dev1... (i.e other web instances in the stack
-						and other servers in the dev env.
-					</p>
+					<div id="aem-help">
+						<h3>Example usage</h3>
+						<p>
+							By default this extension loads with an example AEM setup above, a number of servers per stack.
+							 <br/>
+							There maybe any number of stacks depending on the number of development streams
+							(e.g. dev1, dev2, dev3, uat1, uat2, preprod1, preprod2 etc...)
+						</p>
+						<p>Given that you are viewing a page on the dispatcher on dev1 (web.dev1.foo-bar.co.uk),
+							the links generated in the context menu would be
+							to; author.dev1..., publish.dev1... and www.incapsula.dev1... (i.e other servers in the dev1 env)
+							<br/>
+							Due to tapering environment structure you may want non-reciprocal links to a staging env and/or live environment,
+							to do this add a target URL adding "ignore" to the "Server match" column. This will be used
+							to generate links on pages lower down the stack, but not generate links when viewing the environment.
+							<br/> To add a link back from live to a sever your currently developing against, use the
+							"Individual Matches" section in the advanced settings section.
+						</p>
 					<pre><code>
-	author.dev1.foo-bar-baz.com:4502
-	publish.dev1.foo-bar-baz.com:4503
-	web.dev1.foo-bar-baz.com
-	www.incapsula.dev1.foo-bar-baz.com
-
-	author.uat1.foo-bar-baz.com:4502
-	publish.uat1.foo-bar-baz.com:4503
-	web.uat1.foo-bar-baz.com
-	www.incapsula.uat1.foo-bar-baz.com
-
-	author.preprod1.foo-bar-baz.com:4502
-	publish.preprod1.foo-bar-baz.com:4503
-	web.preprod1.foo-bar-baz.com
-	www.incapsula.preprod1.foo-bar-baz.com
-
+		author.dev1.foo-bar.co.uk:4502
+		publish.dev1.foo-bar.co.uk:4503
+		web.dev1.foo-bar.co.uk
+		www.incapsula.dev1.foo-bar.co.uk
 					</code></pre>
-					<p class="test">
-						<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.foo-bar-baz.com:4502/path/to/my/page.html"> <button class="test__button">Test settings</button>
+						<p class="test">
+							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.foo-bar.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
+						</p>
 						<ul class="test__results">
 
 						</ul>
-					</p>
 
-					<p>
-						For RegExp help see <a href="https://regex101.com/">regex101.com</a>
-					</p>
-				</div>
+						<p>
+							For RegExp help see <a href="https://regex101.com/">regex101.com</a>
+						</p>
+					</div>
+					<div id="aem-help-advanced">
+						<h3>Example usage</h3>
+						<p>
+							Add single matches here, for example if you want a menu
+							item from the live site to your local development instance
+							add the target URL your dev instance in the right hand column,
+							and the regexp for the URL you watch to match in the left.
+							<br/>
+							e.g.<br/> <code>http://www.foo-bar.co.uk/(.*)</code> <code>http://localhost:4503/$1.html</code>
+						</p>
+						<p class="test">
+							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.foo-bar.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
+						</p>
+						<ul class="test__results">
+
+						</ul>
+						<p>
+							For RegExp help see <a href="https://regex101.com/">regex101.com</a>
+						</p>
+					</div>
 
 				</form>
 			</main>
