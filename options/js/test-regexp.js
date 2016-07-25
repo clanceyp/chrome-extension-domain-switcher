@@ -36,13 +36,16 @@ $(document).ready(function(){
     }
     function validate(e){
         var $el = $(e.target), text = $el.val() || "()(", re, ok = true, outline;
+        if (text === "ignore"){
+            return;
+        }
         try {
             re = new RegExp(text);
         } catch(e){
             ok = false;
         } finally {
-            outline = "0 0 3px 2px "+ (ok ? "rgba(100, 245, 100, 0.5)" : "rgba(245, 100, 100, 0.5)");
-            $el.css("box-shadow", outline );
+            outline = ok ? "valid" : "invalid";
+            $el.removeClass("valid invalid").addClass(outline);
         }
     }
     $(document).on('click', ".test__button", test);

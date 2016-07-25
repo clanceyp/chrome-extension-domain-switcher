@@ -17,6 +17,9 @@
             text-decoration: none;
             transition: all 300ms;
         }
+
+        li:last-child:not(:first-child) a:focus,
+        li:last-child:not(:first-child) a:hover,
         nav a:focus, nav a:hover {
             background-color: #888;
             color: #fff;
@@ -24,12 +27,17 @@
         }
 
         li a {
+            border-bottom: 1px solid silver;
             display: block;
             margin: 0;
-            padding: 8px 32px;
+            padding: 12px 32px;
+            white-space: nowrap;
         }
-        li:last-child:not(:first-child) {
-            border-top: 1px solid cornflowerblue;
+        li:nth-last-child(-n+1) a {
+            border-bottom: 0 none;
+        }
+        li:last-child:not(:first-child) a {
+            background-color: #eee;
         }
     </style>
 </head>
@@ -37,7 +45,7 @@
 <body>
 <nav>
     <ul>
-
+        <li><a>Loading</a></li>
     </ul>
 </nav>
 </body>

@@ -1,5 +1,5 @@
 body {
-    background-color: #ffe;
+    background-color: #e4ffe5;
 }
 
 h1, a:link {
@@ -138,7 +138,10 @@ table.data input[type=text]{
 
 @media (max-width: 900px) {
     .settings__navigation:before {
-        display: none;
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 50px;
     }
     .settings {
         margin-left: 20px;
@@ -179,4 +182,13 @@ pre code {
     color: white;
     display: block;
     line-height: 1.4;
+}
+input.invalid {
+    background-color: #9d0019;
+    border: 2px solid #41000a;
+    color: white;
+}
+input.valid {
+    background-color: #b6ffbc;
+    border: 2px solid #23cd17;
 }
