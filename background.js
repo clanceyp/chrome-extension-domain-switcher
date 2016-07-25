@@ -1,6 +1,5 @@
 
 var initPopup = function(tab) {
-    console.log(tab)
     if (!tab||!tab.tabId){
         return;
     }
@@ -19,6 +18,5 @@ var initPopup = function(tab) {
 }
 
 chrome.tabs.onActivated.addListener(initPopup);
-// chrome.tabs.onUpdated.addListener(initPopupA); returns id, not tab object
 chrome.tabs.onCreated.addListener(initPopup);
 
