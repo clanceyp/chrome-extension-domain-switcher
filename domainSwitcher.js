@@ -2,7 +2,7 @@ var domainSwitcher = {
     menuItems:[],
     menuItemId: "domain-switcher",
     menuTitle: "Domain switcher",
-    menuTitleSettings: "Settings",
+    menuTitleSettings: "Options",
     isMatch: function(tabUrl){
         var match = false,
             stackItems = options.getLocalStore("key-value-pair-domain", "{}", "json"),
@@ -58,7 +58,7 @@ var domainSwitcher = {
             menuItems.push({
                 "id": "settings",
                 "url": chrome.extension.getURL(manifest.options_page),
-                "title": "Settings",
+                "title": domainSwitcher.menuTitleSettings,
                 "type": "normal"
             })
         }

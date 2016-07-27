@@ -1,17 +1,20 @@
 {
-  "version": "0.6.1",
+  "version": "1.0.1",
   "manifest_version": 2	,
   "name": "Switch Domain",
+  "short_name": "Switch Domain",
   "description": "This extension adds a page action menu to switch domains for Adobe AEM/CQ and other large projects",
   "permissions": [
-    "contextMenus"
+    "tabs"
+    ,"http://*/*"
+    ,"https://*/*"
     ,"background"
-    ,"tabs"
+    ,"notifications"
+    ,"activeTab"
   ],
   "options_page": "options/index.html",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "background": {
-    "persistent": false,
     "scripts": [
       "domainSwitcher.js"
       ,"background.js"

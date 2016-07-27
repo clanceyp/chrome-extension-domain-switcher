@@ -1,7 +1,7 @@
 
 var DEBUG = true,
-	AEMPRESET = '[{"key":"http://author.(.*?).foo-bar.co.uk:4502/cf#/content(.*)(.html)","value":"http://author.$1.foo-bar.co.uk:4502/cf#/content$2.html"},{"key":"http://publish.(.*?).foo-bar.co.uk:4503(.*)(.html)","value":"http://publish.$1.foo-bar.co.uk:4503$2.html?debugClientLibs=true"},{"key":"http://web.(.*?).foo-bar.co.uk(.*)","value":"http://web.$1.foo-bar.co.uk$2"},{"key":"https://www.incapsula.(.*?).foo-bar.co.uk(.*)","value":"https://www.incapsula.$1.foo-bar.co.uk$2"},{"key":"ignore","value":"http://www.foo-bar.co.uk$2"}]',
-	SOLOPRESET = '[{"key":"http://www.foo-bar.co.uk/(.*)","value":"http://localhost:4502/cf#/content/$1.html"}]',
+	AEMPRESET = '[{"key":"http://author.(.*?).geometrixx.co.uk:4502/cf#/content(.*)(.html)","value":"http://author.$1.geometrixx.co.uk:4502/cf#/content$2.html"},{"key":"http://publish.(.*?).geometrixx.co.uk:4503(.*)(.html)","value":"http://publish.$1.geometrixx.co.uk:4503$2.html?debugClientLibs=true"},{"key":"http://dispatcher.(.*?).geometrixx.co.uk(.*)","value":"http://dispatcher.$1.geometrixx.co.uk$2"},{"key":"https://www.incapsula.(.*?).geometrixx.co.uk(.*)","value":"https://www.incapsula.$1.geometrixx.co.uk$2"},{"key":"ignore","value":"http://www.geometrixx.co.uk$2"}]',
+	SOLOPRESET = '[{"key":"http://www.geometrixx.co.uk/(.*)","value":"http://localhost:4502/cf#/content/$1.html"}]',
 	OPTIONS = {
 		FORMS : {
 			"options" : [
@@ -28,31 +28,3 @@ var DEBUG = true,
 		}
 		*/
 	};
-
-
-
-/*
-
-example url pattern
-
-
- author.test1.my-domain.com:4502
- publish.test1.my-domain.com:4503
- web.test1.my-domain.com
- www.incapsula.test1.my-domain.com
-
- author.uat1.my-domain.com:4502
- publish.uat1.my-domain.com:4503
- web.uat1.my-domain.com
- www.incapsula.uat1.my-domain.com
-
- author.preprod1.my-domain.com:4502
- publish.preprod1.my-domain.com:4503
- web.preprod1.my-domain.com
- www.incapsula.preprod1.my-domain.com
-
-
- */
-
-
-

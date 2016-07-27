@@ -70,7 +70,7 @@
 							There maybe any number of stacks depending on the number of development streams
 							(e.g. dev1, dev2, dev3, uat1, uat2, preprod1, preprod2 etc...)
 						</p>
-						<p>Given that you are viewing a page on the dispatcher on dev1 (web.dev1.foo-bar.co.uk),
+						<p>Given that you are viewing a page on the dispatcher on dev1 (web.dev1.geometrixx.co.uk),
 							the links generated in the context menu would be
 							to; author.dev1..., publish.dev1... and www.incapsula.dev1... (i.e other servers in the dev1 env)
 							<br/>
@@ -81,13 +81,13 @@
 							"Individual Matches" section in the advanced settings section.
 						</p>
 					<pre><code>
-		author.dev1.foo-bar.co.uk:4502
-		publish.dev1.foo-bar.co.uk:4503
-		web.dev1.foo-bar.co.uk
-		www.incapsula.dev1.foo-bar.co.uk
+		author.dev1.geometrixx.co.uk:4502
+		publish.dev1.geometrixx.co.uk:4503
+		dispatcher.dev1.geometrixx.co.uk
+		www.incapsula.dev1.geometrixx.co.uk
 					</code></pre>
 						<p class="test">
-							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.foo-bar.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
+							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
 						</p>
 						<ul class="test__results">
 
@@ -105,10 +105,10 @@
 							add the target URL your dev instance in the right hand column,
 							and the regexp for the URL you watch to match in the left.
 							<br/>
-							e.g.<br/> <code>http://www.foo-bar.co.uk/(.*)</code> <code>http://localhost:4503/$1.html</code>
+							e.g.<br/> <code>http://www.geometrixx.co.uk/(.*)</code> <code>http://localhost:4503/$1.html</code>
 						</p>
 						<p class="test">
-							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.foo-bar.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
+							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
 						</p>
 						<ul class="test__results">
 
