@@ -4,19 +4,16 @@ var initPopup = function(tab) {
         return;
     }
     chrome.tabs.get(tab.tabId,function(tab){
-        if (!domainSwitcher.isActive()){
-            chrome.pageAction.hide(tab.id);
-            return;
-        }
-        var isMatch = domainSwitcher.isMatch(tab.url);
-        if (isMatch){
-            chrome.pageAction.show(tab.id);
-        } else {
-            chrome.pageAction.hide(tab.id);
-        }
+        domainSwitcher.setTabStatus(tab);
     });
 }
 
 chrome.tabs.onActivated.addListener(initPopup);
 chrome.tabs.onCreated.addListener(initPopup);
+
+chrome.runtime.onMessage.addListener(function(request, sender) {
+    if (request.action === "checkUrl" && sender && sender.tab){
+        domainSwitcher.setTabStatus(sender.tab);
+    }
+});
 

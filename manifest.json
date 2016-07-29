@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "manifest_version": 2	,
   "name": "Switch Domain",
   "short_name": "Switch Domain",
@@ -31,5 +31,11 @@
     "default_icon" : "/lib/icon/swap.png",
     "default_title": "Switch Domain",
     "default_popup": "popup.html"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*"],
+      "js": ["lib/js/content.js"]
+    }
+  ]
 }
