@@ -26,7 +26,7 @@ $(document).ready(function(){
         } else {
             setTimeout(function(){
                 for (var i= 0, len = menuItems.length; i<len; i++){
-                   if (menuItems[i].type !== "normal"){continue;}
+                   if (menuItems[i].type !== "normal" || menuItems[i].url.startsWith("chrome") || menuItems[i].current){continue;}
                     $(`<li>${menuItems[i].url}</li>`)
                         .appendTo(".test__results");
                 }
