@@ -89,6 +89,7 @@ var domainSwitcher = {
                     id = domainSwitcher.menuItemId + performance.now(),
                     url = tabUrl;
                 if (url.match(re)) {
+                    console.log("\""+ url +"\".replace("+re.toString() +", \""+ val +"\")");
                     url = url.replace(re, val);
                     menuItems.push({
                         "id": id,
