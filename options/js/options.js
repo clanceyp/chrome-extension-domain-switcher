@@ -57,7 +57,7 @@
                     icon = ("/" + (manifest.icons ? (manifest.icons["128"] ||  manifest.icons["48"] || "") : "")).replace("//","/"),
                     i = new Image,
                     loadIcon = function(){
-                        $(".body").css("background-image", "url("+ this.src +")");
+                        $(".appIcon").css("background-image", "url("+ this.src +")");
                     };
 
                 $(".header__heading").html('<span class="appName"></span> <span class="appVersion header__heading-version"></span>');
@@ -92,8 +92,6 @@
                 $("#"+defaultSectionId).removeClass("hidden");
                 if ( $(selector).length ) {
                     $(selector).trigger("click");
-                } else {
-                    alert( $("body").html() )
                 }
             },
             getItemValue:function(key){
@@ -159,8 +157,7 @@
             },
             resetForm:function(){
                 backgroundPage.options.resetLocalStore();
-                $('form fieldset').empty();
-                optionsForm.setupForm(true);
+                location.reload();
             },
             createRow: {
                 basic: function(element){
@@ -301,6 +298,10 @@
                     if ( !(type === "fieldset" || type === "title" ) && !item.name){
                         alert('Your form elements must have a name attribute');
                         continue;
+                    }
+                    if (!value && item.prePopulate){
+                        backgroundPage.options.setLocalStore(item.name, item.prePopulate);
+                        value = item.prePopulate;
                     }
                     element = {
                         id: id,

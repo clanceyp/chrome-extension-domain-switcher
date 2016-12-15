@@ -1,0 +1,13 @@
+pre {
+    border: 1px solid silver;
+    border-radius: 6px;
+    padding: 6px;
+    tab-size: 2;
+}
+pre code {
+    background-color: #333;
+    border-radius: 3px;
+    color: white;
+    display: block;
+    line-height: 1.4;
+}

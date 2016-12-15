@@ -186,7 +186,7 @@ pre {
         margin: 0;
         padding: 0;
     }
-    body:before {
+    .appIcon:before {
         background-image: inherit;
         background-repeat: no-repeat;
         background-size: 60%;
