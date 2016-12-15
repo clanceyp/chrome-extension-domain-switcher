@@ -1,9 +1,10 @@
 {
-  "version": "1.0.4",
+  "version": "1.1.0",
   "manifest_version": 2	,
   "name": "Switch Domain",
   "short_name": "Switch Domain",
   "description": "This extension adds a page action menu to switch domains for Adobe AEM/CQ and other large projects",
+  "homepage_url": "https://github.com/clanceyp/chrome-extension-domain-switcher",
   "permissions": [
     "tabs"
     ,"http://*/*"

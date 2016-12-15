@@ -11,7 +11,9 @@ var DEBUG = true,
 				{"name":"key-value-pair-domain", "id":"key-value-pair-domain", "label":"Development Stack", "type" : "key-value", tag:"div", parent:'basicSettings', prePopulate: AEMPRESET, data : [{cols:[{"title":"Server match"},{"title":"Server replace"}]}]},
 				{"name":"key-value-pair-individual", "id":"key-value-pair-individual", "label":"Individual Matches", "type" : "key-value", tag:"div", parent:'advancedSettings', prePopulate: SOLOPRESET, data : [{cols:[{"title":"RegExp match"},{"title":"Replace value"}]}]},
 				{"name":"help-text", type: "inject-external", querySelector : "#aem-help", parent:'basicSettings'},
-				{"name":"help-text-advanced", type: "inject-external", querySelector : "#aem-help-advanced", parent:'advancedSettings'}
+				{"name":"help-text-advanced", type: "inject-external", querySelector : "#aem-help-advanced", parent:'advancedSettings'},
+                {"name":"alert-settings-button-1", "value":"Bulk Edit Settings", "type":"button", parent:'basicSettings', data:[{"display-only":""},{"custom-event-default":""}]},
+                {"name":"alert-settings-button-2", "value":"Bulk Edit Advanced Settings", "type":"button", parent:'advancedSettings', data:[{"display-only":""},{"custom-event-advanced":""}]}
 			]
 		},
 
@@ -20,6 +22,9 @@ var DEBUG = true,
 			"jasmine-test-001-key" : "jasmine-test-001-value",
 			"online": true
 		},
+
+		// home folder
+        LIB : '/options'
 
 		// [name of element] : [help text]
 		/*
