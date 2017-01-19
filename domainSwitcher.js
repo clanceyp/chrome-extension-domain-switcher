@@ -103,7 +103,16 @@ var domainSwitcher = {
         return menuItems;
     },
     getIndividual: function(tabUrl, items){
-        var i= 0, length = items.length, menuItems=[];
+        var i= 0, length = items.length, menuItems=[],
+            getTitle=function(url){
+                if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
+                    return url.split("||")[0];
+                } else if (url.indexOf("//") > -1) {    // "http://mydomain.com" = "mydomain.com"
+                    return url.split("//")[1].split("/").shift();
+                } else {
+                    return url;
+                }
+            };
         for (;i<length;i++){
             var key = items[i].key,
                 re = new RegExp(key),
@@ -115,7 +124,7 @@ var domainSwitcher = {
                 menuItems.push({
                     "id": id,
                     "url": url,
-                    "title": url.split("//")[1].split("/").shift(),
+                    "title": getTitle(url),
                     "type": "normal"
                 })
             }

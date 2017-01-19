@@ -6,7 +6,23 @@ $(document).ready(function(){
         var tabUrl = $("[name=test__input]").val(),
             items = backgroundPage.options.getLocalStore("key-value-pair-domain", "{}", "json"),
             _stackItems = backgroundPage.options.getLocalStore("key-value-pair-domain", "{}", "json"),
-            _individualItems = backgroundPage.options.getLocalStore("key-value-pair-individual", "{}", "json");
+            _individualItems = backgroundPage.options.getLocalStore("key-value-pair-individual", "{}", "json"),
+            getTitle=function(url){
+                if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
+                    return url.split("||")[0];
+                } else if (url.indexOf("//") > -1) {    // "http://mydomain.com" = "mydomain.com"
+                    return url.split("//")[1].split("/").shift();
+                } else {
+                    return url;
+                }
+            },
+            getUrl=function(url){
+                if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "http://mydomain.com"
+                    return url.split("||")[1];
+                } else {
+                    return url;
+                }
+            };
 
         window.menuItems = [];
 
@@ -25,10 +41,10 @@ $(document).ready(function(){
                 .appendTo(".test__results");
         } else {
             setTimeout(function(){
-                for (var i= 0, len = menuItems.length; i<len; i++){
+                for (var i= 0,url, len = menuItems.length; i<len; i++){
                    if (menuItems[i].type !== "normal" || menuItems[i].url.startsWith("chrome") || menuItems[i].current){continue;}
-                    $(`<li>${menuItems[i].url}</li>`)
-                        .appendTo(".test__results");
+                   $(`<li>${getTitle(menuItems[i].url)} <span style="opacity: 0.4">(${getUrl(menuItems[i].url)})</span></li>`)
+                       .appendTo(".test__results");
                 }
             },300);
         }
