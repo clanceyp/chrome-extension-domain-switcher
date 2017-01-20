@@ -4,7 +4,6 @@ $(document).ready(function(){
     function test(e){
         e.preventDefault();
         var tabUrl = $("[name=test__input]").val(),
-            items = backgroundPage.options.getLocalStore("key-value-pair-domain", "{}", "json"),
             _stackItems = backgroundPage.options.getLocalStore("key-value-pair-domain", "{}", "json"),
             _individualItems = backgroundPage.options.getLocalStore("key-value-pair-individual", "{}", "json"),
             getTitle=function(url){
@@ -27,6 +26,17 @@ $(document).ready(function(){
             $("[name=test__input]").val(tabUrl);
         }
         // $("textarea.settings").val( backgroundPage.options.getLocalStore("key-value-pair-domain", "") )
+
+        if (domainSwitcher.hasMatch(tabUrl, _stackItems)){
+            $(".test__match--stack").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _stackItems) + "</span>");
+        } else {
+            $(".test__match--stack").html("No stack match");
+        }
+        if (domainSwitcher.hasMatch(tabUrl, _individualItems)){
+            $(".test__match--individual").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _individualItems) + "</span>");
+        } else {
+            $(".test__match--individual").html("No individual match");
+        }
 
         menuItems = domainSwitcher.getAllSorted(tabUrl, _stackItems, _individualItems, "url");
 

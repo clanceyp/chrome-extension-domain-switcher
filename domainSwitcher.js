@@ -4,10 +4,14 @@ var domainSwitcher = {
     menuTitle: "Domain switcher",
     menuTitleSettings: "Options",
     isMatch: function(tabUrl){
-        var match = false,
-            stackItems = options.getLocalStore("key-value-pair-domain", "{}", "json"),
+        var stackItems = options.getLocalStore("key-value-pair-domain", "{}", "json"),
             individualItems = options.getLocalStore("key-value-pair-individual", "{}", "json"),
-            items = stackItems.concat(individualItems),
+            items = stackItems.concat(individualItems);
+
+        return !!domainSwitcher.hasMatch(tabUrl, items);
+    },
+    hasMatch: function(tabUrl, items){
+        var match = false,
             i = 0,
             length = items.length,
             re;
@@ -17,7 +21,7 @@ var domainSwitcher = {
             }
             re = new RegExp(items[i].key);
             if (tabUrl.match(re)) {
-                match = true;
+                match = items[i].key;
                 break;
             }
         }
