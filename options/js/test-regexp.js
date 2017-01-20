@@ -11,17 +11,13 @@ $(document).ready(function(){
                 if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
                     return url.split("||")[0];
                 } else if (url.indexOf("//") > -1) {    // "http://mydomain.com" = "mydomain.com"
-                    return url.split("//")[1].split("/").shift();
+                    return url.split("//")[1].split("/")[0];
                 } else {
                     return url;
                 }
             },
             getUrl=function(url){
-                if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "http://mydomain.com"
-                    return url.split("||")[1];
-                } else {
-                    return url;
-                }
+                return url.split("||").pop();
             };
 
         window.menuItems = [];
@@ -43,7 +39,7 @@ $(document).ready(function(){
             setTimeout(function(){
                 for (var i= 0,url, len = menuItems.length; i<len; i++){
                    if (menuItems[i].type !== "normal" || menuItems[i].url.startsWith("chrome") || menuItems[i].current){continue;}
-                   $(`<li>${getTitle(menuItems[i].url)} <span style="opacity: 0.4">(${getUrl(menuItems[i].url)})</span></li>`)
+                   $(`<li>${getTitle(menuItems[i].title)} <span style="opacity: 0.4">(${getUrl(menuItems[i].url)})</span></li>`)
                        .appendTo(".test__results");
                 }
             },300);

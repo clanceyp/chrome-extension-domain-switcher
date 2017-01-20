@@ -8,8 +8,8 @@
     var backgroundPage = chrome.extension.getBackgroundPage(),
         HELP = OPTIONS.HELP,
         DEFAULT_VALUES = OPTIONS.DEFAULT_VALUES,
-        FORMS = OPTIONS.FORMS,
         LIB = OPTIONS.LIB || '/lib/options',
+        FORMS = OPTIONS.FORMS,
         optionsForm = {
             options:FORMS["options"],
             utils:{
@@ -63,6 +63,9 @@
                 $(".header__heading").html('<span class="appName"></span> <span class="appVersion header__heading-version"></span>');
                 $(".appVersion").text(manifest.version);
                 $(".appName").text(manifest.name);
+                if(manifest.homepage_url.match("github.com")){
+                    $(".appHomepage_url[href]").attr("href", manifest.homepage_url);
+                }
                 i.addEventListener("load", loadIcon, false);
                 i.src = icon;
                 optionsForm.v = "1.0.1";
@@ -86,13 +89,10 @@
             },
             setupNavigation:function(){
                 var defaultSectionId = ( _.findWhere(optionsForm.options, {defaultSection: "true"}) ).id,
-                    currentSelection = window.location.hash || "#"+defaultSectionId ,
-                    selector = ".settings__navigation-list a[href='"+ currentSelection +"']" ;
+                    currentSelection = window.location.hash || "#"+ defaultSectionId,
+                    selector = currentSelection ? ".settings__navigation-list a[href='"+ currentSelection +"']" : ".settings__navigation-item--"+ defaultSectionId;
                 $(".settings__section").addClass("hidden");
-                $("#"+defaultSectionId).removeClass("hidden");
-                if ( $(selector).length ) {
-                    $(selector).trigger("click");
-                }
+                $(selector).trigger("click");
             },
             getItemValue:function(key){
                 return backgroundPage.options.getLocalStore(key);
@@ -157,7 +157,8 @@
             },
             resetForm:function(){
                 backgroundPage.options.resetLocalStore();
-                location.reload();
+                $('form fieldset').empty();
+                optionsForm.setupForm(true);
             },
             createRow: {
                 basic: function(element){
@@ -166,7 +167,7 @@
                         $row = $("<p />").appendTo(element.parent),
                         labelHTML = element.label ? '<label for="'+ element.id +'" class="settings__form-label settings__form-label--'+type+'">'+ element.label +'</label>' : "";
                     $row
-                        .addClass(element.name +'__container settings__form-row settings__form-row--'+ type)
+                        .addClass(element.name +'__container settings__form-row settings__form-row--'+ type +' '+ (element.parentClassName || ""))
                         .append(labelHTML);
 
                     if (element.type === "textarea"){
@@ -202,7 +203,7 @@
                         $('#'+ element.id ).addClass( element.className || '' );
                     }
                     if (element.type==="checkbox") {
-                        $("#"+ element.id ).attr('checked', (value === "true") );
+                        $("#"+ element.id ).prop('checked', (value === "true" || value === true) );
                     }
                     if (element.html5==="range"){
                         $("#"+ element.id ).trigger("change");
@@ -236,7 +237,7 @@
                             .addClass( element.name + "__container settings__form-row settings__form-row--key-value")
                             .data("type", "key-value");
 
-                        $("#"+ id).append('<table id="table-'+id+'" class="data">' + caption + '<tr><th>'+ data.cols[0].title +'</th><th>'+ data.cols[1].title +'</th></tr><tbody data-bind="foreach: pairs"><tr><td><input type="text" class="displayonly filterId" data-bind="value: key" /></td><td><input type="text" class="displayonly filterTitle" data-bind="value: value" /></td><td><img class="displayonly" data-bind="click: $root.removePair"  src="'+ LIB +'/i/trash.png"/></td></tr></tbody><tfoot><tr><td></td><td></td><td><button class="displayonly" data-bind="click: addPair">Add pair</button></td></tr></tfoot></table>');
+                        $("#"+ id).append('<table id="table-'+id+'" class="data">' + caption + '<tr><th>'+ data.cols[0].title +'</th><th>'+ data.cols[1].title +'</th></tr><tbody data-bind="foreach: pairs"><tr><td><input type="text" class="displayonly filterId" data-bind="value: key" /></td><td><input type="text" class="displayonly filterTitle" data-bind="value: value" /></td><td><img class="displayonly" data-bind="click: $root.removePair"  src="'+LIB+'/i/trash.png"/></td></tr></tbody><tfoot><tr><td></td><td></td><td><button class="displayonly" data-bind="click: addPair">Add pair</button></td></tr></tfoot></table>');
                         if (document.querySelectorAll("#table-"+id).length === 1 ){
                             ko.applyBindings(new optionsForm.ColumnInfoViewModel(element), document.querySelector("#table-"+id));
                         }
@@ -416,6 +417,8 @@
         $(document).on('input', ".settings__form-item--range", optionsForm.handleRangeSlider);
         $(document).on('click', ".settings__navigation-link", optionsForm.navigate);
         $(document).on('change', ".settings__form-item--range", optionsForm.handleRangeChange);
+        $(document).on('click', "[data-custom-event]", function(){alert("Hello, I'm a custom event")});
+        $(document).on('click', "button.help",function(e){e.preventDefault()});
         optionsForm.init(window);
     });
 

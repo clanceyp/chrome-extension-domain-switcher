@@ -72,7 +72,7 @@ var domainSwitcher = {
             }
             var key = items[i].key;
                 re = new RegExp(key),
-                val = items[i].value,
+                val = domainSwitcher.getURL(items[i].value),
                 id = domainSwitcher.menuItemId + performance.now(),
                 url = tabUrl;
             if (url.match(re)) {
@@ -85,7 +85,7 @@ var domainSwitcher = {
         if (match){
             for (i=0;i<length;i++){
                 var re = match,
-                    val = items[i].value,
+                    val = domainSwitcher.getURL(items[i].value),
                     id = domainSwitcher.menuItemId + performance.now(),
                     url = tabUrl;
                 if (url.match(re)) {
@@ -93,8 +93,8 @@ var domainSwitcher = {
                     url = url.replace(re, val);
                     menuItems.push({
                         "id": id,
-                        "url": url,
-                        "title": url.split("//")[1].split("/").shift(),
+                        "url": domainSwitcher.cleanURL(url),
+                        "title": domainSwitcher.getTitle(items[i].value, url),
                         "type": "normal"
                     })
                 }
@@ -103,28 +103,19 @@ var domainSwitcher = {
         return menuItems;
     },
     getIndividual: function(tabUrl, items){
-        var i= 0, length = items.length, menuItems=[],
-            getTitle=function(url){
-                if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
-                    return url.split("||")[0];
-                } else if (url.indexOf("//") > -1) {    // "http://mydomain.com" = "mydomain.com"
-                    return url.split("//")[1].split("/").shift();
-                } else {
-                    return url;
-                }
-            };
+        var i= 0, length = items.length, menuItems=[];
         for (;i<length;i++){
             var key = items[i].key,
                 re = new RegExp(key),
-                val = items[i].value,
+                val = domainSwitcher.getURL(items[i].value),
                 id = domainSwitcher.menuItemId + performance.now(),
                 url = tabUrl;
             if (url.match(re)) {
                 url = url.replace(re, val);
                 menuItems.push({
                     "id": id,
-                    "url": url,
-                    "title": getTitle(url),
+                    "url": domainSwitcher.cleanURL(url),
+                    "title": domainSwitcher.getTitle(items[i].value, url),
                     "type": "normal"
                 })
             }
@@ -142,5 +133,29 @@ var domainSwitcher = {
         } else {
             chrome.pageAction.hide(tab.id);
         }
+    },
+    getTitle: function(raw, url){
+        var label;
+        if (raw.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
+            label = raw.split("||")[0];
+        } else if (url.indexOf("//") > -1) {    // "http://mydomain.com" = "mydomain.com"
+            label = url.split("//")[1].split("/")[0];
+        } else {
+            label = url;
+        }
+        return label;
+    },
+    getURL: function(url){
+        return url.split("||").pop();
+    },
+    cleanURL: function(url){
+        /*
+        * cleanURL("http://www.foo.com//bar/baz//qux/.html") == "http://www.foo.com/bar/baz/qux.html"
+        *
+        * */
+        function replacer(match, p1, offset, string) {
+            return match.substring(0, 2);
+        }
+        return url.replace(/\/\.html/,'.html').replace(/[^:](\/\/+)/g, replacer);
     }
-}
+};
