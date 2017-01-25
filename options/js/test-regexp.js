@@ -4,7 +4,9 @@ $(document).ready(function(){
     function test(e){
         e.preventDefault();
         var tabUrl = $("[name=test__input]").val(),
+            stack = $(e.target).data("stack"),
             _stackItems = backgroundPage.options.getLocalStore("key-value-pair-domain", "{}", "json"),
+            _stackItems2 = backgroundPage.options.getLocalStore("key-value-pair-domain-2", "{}", "json"),
             _individualItems = backgroundPage.options.getLocalStore("key-value-pair-individual", "{}", "json"),
             getTitle=function(url){
                 if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
@@ -30,7 +32,12 @@ $(document).ready(function(){
         if (domainSwitcher.hasMatch(tabUrl, _stackItems)){
             $(".test__match--stack").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _stackItems) + "</span>");
         } else {
-            $(".test__match--stack").html("No stack match");
+            $(".test__match--stack").html("No match in stack");
+        }
+        if (domainSwitcher.hasMatch(tabUrl, _stackItems2)){
+            $(".test__match--stack-2").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _stackItems2) + "</span>");
+        } else {
+            $(".test__match--stack-2").html("No match in stack");
         }
         if (domainSwitcher.hasMatch(tabUrl, _individualItems)){
             $(".test__match--individual").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _individualItems) + "</span>");
@@ -38,7 +45,11 @@ $(document).ready(function(){
             $(".test__match--individual").html("No individual match");
         }
 
-        menuItems = domainSwitcher.getAllSorted(tabUrl, _stackItems, _individualItems, "url");
+        if (stack === "secondary"){
+            _stackItems = _stackItems2;
+        }
+
+        menuItems = domainSwitcher.getAllSorted(tabUrl, _stackItems, [], [], _individualItems, "title");
 
         $(".test__results").empty();
 
@@ -48,8 +59,8 @@ $(document).ready(function(){
         } else {
             setTimeout(function(){
                 for (var i= 0,url, len = menuItems.length; i<len; i++){
-                   if (menuItems[i].type !== "normal" || menuItems[i].url.startsWith("chrome") || menuItems[i].current){continue;}
-                   $(`<li>${getTitle(menuItems[i].title)} <span style="opacity: 0.4">(${getUrl(menuItems[i].url)})</span></li>`)
+                   if (menuItems[i].type !== "normal" || menuItems[i].url.startsWith("chrome")){continue;}
+                   $(`<li data-current="${menuItems[i].current}">${getTitle(menuItems[i].title)} <span style="opacity: 0.4">(${getUrl(menuItems[i].url)})</span></li>`)
                        .appendTo(".test__results");
                 }
             },300);

@@ -40,6 +40,11 @@
 					box-shadow:4px 4px 10px rgba(0,0,0,0.5);}
 			}
 		</style>
+		<style>
+			[data-current="true"] {
+				color: chocolate;
+			}
+		</style>
 	</head>
 	<body class="appIcon">
 		<div class="settings">
@@ -109,9 +114,23 @@
 		www.incapsula.dev1.geometrixx.co.uk
 					</code></pre>
 						<p class="test">
-							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
+							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button" data-stack="primary">Test settings</button>
 						</p>
 						<p class="test__match test__match--stack"></p>
+						<ul class="test__results">
+
+						</ul>
+
+						<p>
+							For RegExp help see <a href="https://regex101.com/">regex101.com</a>
+						</p>
+					</div>
+					<div id="aem-help-secondary">
+
+						<p class="test">
+							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button" data-stack="secondary">Test settings</button>
+						</p>
+						<p class="test__match test__match--stack-2"></p>
 						<ul class="test__results">
 
 						</ul>

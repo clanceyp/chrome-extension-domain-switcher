@@ -4,9 +4,11 @@ var domainSwitcher = {
     menuTitle: "Domain switcher",
     menuTitleSettings: "Options",
     isMatch: function(tabUrl){
-        var stackItems = options.getLocalStore("key-value-pair-domain", "{}", "json"),
-            individualItems = options.getLocalStore("key-value-pair-individual", "{}", "json"),
-            items = stackItems.concat(individualItems);
+        var _stackItems = options.getLocalStore("key-value-pair-domain", "[]", "json"),
+            _stackItems2 = options.getLocalStore("key-value-pair-domain-2", "[]", "json"),
+            _stackItems3 = options.getLocalStore("key-value-pair-domain-3", "[]", "json"),
+            individualItems = options.getLocalStore("key-value-pair-individual", "[]", "json"),
+            items = _stackItems.concat(_stackItems2).concat(_stackItems3).concat(individualItems);
 
         return !!domainSwitcher.hasMatch(tabUrl, items);
     },
@@ -31,8 +33,10 @@ var domainSwitcher = {
         return options.getLocalStore("online", false, "boolean");
     },
     buildMenu: function(callBack){
-        var _stackItems = options.getLocalStore("key-value-pair-domain", "{}", "json"),
-            _individualItems = options.getLocalStore("key-value-pair-individual", "{}", "json"),
+        var _stackItems = options.getLocalStore("key-value-pair-domain", "[]", "json"),
+            _stackItems2 = options.getLocalStore("key-value-pair-domain-2", "[]", "json"),
+            _stackItems3 = options.getLocalStore("key-value-pair-domain-3", "[]", "json"),
+            _individualItems = options.getLocalStore("key-value-pair-individual", "[]", "json"),
             menuItems = [];
         chrome.tabs.query({
             active: true,
@@ -40,15 +44,17 @@ var domainSwitcher = {
         }, function(tabs) {
             console.log(tabs);
             if (tabs.length && tabs[0].url) {
-                menuItems = domainSwitcher.getAllSorted(tabs[0].url, _stackItems, _individualItems, "title");
+                menuItems = domainSwitcher.getAllSorted(tabs[0].url, _stackItems, _stackItems2, _stackItems3, _individualItems, "title");
             }
             callBack(menuItems);
         });
     },
-    getAllSorted: function(tabUrl, _stackItems, _individualItems, sortBy){
+    getAllSorted: function(tabUrl, _stackItems, _stackItems2, _stackItems3, _individualItems, sortBy){
         var stackItems = domainSwitcher.getStack(tabUrl, _stackItems),
+            stackItems2 = domainSwitcher.getStack(tabUrl, _stackItems2),
+            stackItems3 = domainSwitcher.getStack(tabUrl, _stackItems3),
             individualItems = domainSwitcher.getIndividual(tabUrl, _individualItems),
-            menuItems = stackItems.concat(individualItems),
+            menuItems = stackItems.concat(stackItems2).concat(stackItems3).concat(individualItems),
             length = menuItems.length,
             manifest = chrome.runtime.getManifest(),
             current;
