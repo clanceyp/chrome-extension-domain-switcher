@@ -7,8 +7,17 @@ var domainSwitcher = {
         var _stackItems = options.getLocalStore("key-value-pair-domain", "[]", "json"),
             _stackItems2 = options.getLocalStore("key-value-pair-domain-2", "[]", "json"),
             _stackItems3 = options.getLocalStore("key-value-pair-domain-3", "[]", "json"),
+            _stackItems4 = options.getLocalStore("key-value-pair-domain-4", "[]", "json"),
+            _stackItems5 = options.getLocalStore("key-value-pair-domain-5", "[]", "json"),
+            _stackItems6 = options.getLocalStore("key-value-pair-domain-6", "[]", "json"),
             individualItems = options.getLocalStore("key-value-pair-individual", "[]", "json"),
-            items = _stackItems.concat(_stackItems2).concat(_stackItems3).concat(individualItems);
+            items = _stackItems
+                        .concat(_stackItems2)
+                        .concat(_stackItems3)
+                        .concat(_stackItems4)
+                        .concat(_stackItems5)
+                        .concat(_stackItems6)
+                        .concat(individualItems);
 
         return !!domainSwitcher.hasMatch(tabUrl, items);
     },
@@ -36,6 +45,9 @@ var domainSwitcher = {
         var _stackItems = options.getLocalStore("key-value-pair-domain", "[]", "json"),
             _stackItems2 = options.getLocalStore("key-value-pair-domain-2", "[]", "json"),
             _stackItems3 = options.getLocalStore("key-value-pair-domain-3", "[]", "json"),
+            _stackItems4 = options.getLocalStore("key-value-pair-domain-4", "[]", "json"),
+            _stackItems5 = options.getLocalStore("key-value-pair-domain-5", "[]", "json"),
+            _stackItems6 = options.getLocalStore("key-value-pair-domain-6", "[]", "json"),
             _individualItems = options.getLocalStore("key-value-pair-individual", "[]", "json"),
             menuItems = [];
         chrome.tabs.query({
@@ -44,17 +56,26 @@ var domainSwitcher = {
         }, function(tabs) {
             console.log(tabs);
             if (tabs.length && tabs[0].url) {
-                menuItems = domainSwitcher.getAllSorted(tabs[0].url, _stackItems, _stackItems2, _stackItems3, _individualItems, "title");
+                menuItems = domainSwitcher.getAllSorted(tabs[0].url, _stackItems, _stackItems2, _stackItems3, _stackItems4, _stackItems5, _stackItems6, _individualItems, "title");
             }
             callBack(menuItems);
         });
     },
-    getAllSorted: function(tabUrl, _stackItems, _stackItems2, _stackItems3, _individualItems, sortBy){
+    getAllSorted: function(tabUrl, _stackItems, _stackItems2, _stackItems3, _stackItems4, _stackItems5, _stackItems6, _individualItems, sortBy){
         var stackItems = domainSwitcher.getStack(tabUrl, _stackItems),
             stackItems2 = domainSwitcher.getStack(tabUrl, _stackItems2),
             stackItems3 = domainSwitcher.getStack(tabUrl, _stackItems3),
+            stackItems4 = domainSwitcher.getStack(tabUrl, _stackItems4),
+            stackItems5 = domainSwitcher.getStack(tabUrl, _stackItems5),
+            stackItems6 = domainSwitcher.getStack(tabUrl, _stackItems6),
             individualItems = domainSwitcher.getIndividual(tabUrl, _individualItems),
-            menuItems = stackItems.concat(stackItems2).concat(stackItems3).concat(individualItems),
+            menuItems = stackItems
+                            .concat(stackItems2)
+                            .concat(stackItems3)
+                            .concat(stackItems4)
+                            .concat(stackItems5)
+                            .concat(stackItems6)
+                            .concat(individualItems),
             length = menuItems.length,
             manifest = chrome.runtime.getManifest(),
             current;

@@ -283,6 +283,22 @@
                     }
                     $(element.parent)
                         .append( insert );
+                },
+                template: function(element){
+                    var template = $(element.querySelector);
+                    if ($(element.querySelector).length===0){
+                        template =  "<p>Sorry, invalid 'querySelector' "+ element.querySelector +" on item '"+ element.name +"'</p>";
+                    } else {
+                        template = template.html();
+                    }
+                    var tag = element.tag || "div";
+                    $(element.parent)
+                        .append('<'+ tag +' id="'+ element.id +'"/>');
+                    if (element.className){
+                        $('#'+ element.id ).addClass( element.className );
+                    }
+                    $("#"+ element.id)
+                        .append( _.template(template, element.data) );
                 }
             },
             setupForm:function(isReset){
@@ -326,6 +342,8 @@
                         optionsForm.createRow.keyValue(element);
                     } else if (element.type === "inject-external"){
                         optionsForm.createRow.external(element);
+                    } else if (element.type === "inject-template"){
+                        optionsForm.createRow.template(element);
                     } else if (element.type === "fieldset"){
                         if (!document.querySelector("#"+ id)){
                             defaultSectionClass = element.defaultSection === "true" ? "settings__section--default" : "";

@@ -5,8 +5,13 @@ $(document).ready(function(){
         e.preventDefault();
         var tabUrl = $("[name=test__input]").val(),
             stack = $(e.target).data("stack"),
+            results = ".test__results",
             _stackItems = backgroundPage.options.getLocalStore("key-value-pair-domain", "{}", "json"),
             _stackItems2 = backgroundPage.options.getLocalStore("key-value-pair-domain-2", "{}", "json"),
+            _stackItems3 = backgroundPage.options.getLocalStore("key-value-pair-domain-3", "{}", "json"),
+            _stackItems4 = backgroundPage.options.getLocalStore("key-value-pair-domain-4", "{}", "json"),
+            _stackItems5 = backgroundPage.options.getLocalStore("key-value-pair-domain-5", "{}", "json"),
+            _stackItems6 = backgroundPage.options.getLocalStore("key-value-pair-domain-6", "{}", "json"),
             _individualItems = backgroundPage.options.getLocalStore("key-value-pair-individual", "{}", "json"),
             getTitle=function(url){
                 if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
@@ -39,17 +44,54 @@ $(document).ready(function(){
         } else {
             $(".test__match--stack-2").html("No match in stack");
         }
+        if (domainSwitcher.hasMatch(tabUrl, _stackItems3)){
+            $(".test__match--stack-3").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _stackItems3) + "</span>");
+        } else {
+            $(".test__match--stack-3").html("No match in stack");
+        }
+        if (domainSwitcher.hasMatch(tabUrl, _stackItems4)){
+            $(".test__match--stack-4").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _stackItems4) + "</span>");
+        } else {
+            $(".test__match--stack-4").html("No match in stack");
+        }
+        if (domainSwitcher.hasMatch(tabUrl, _stackItems5)){
+            $(".test__match--stack-5").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _stackItems5) + "</span>");
+        } else {
+            $(".test__match--stack-5").html("No match in stack");
+        }
+        if (domainSwitcher.hasMatch(tabUrl, _stackItems6)){
+            $(".test__match--stack-6").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _stackItems6) + "</span>");
+        } else {
+            $(".test__match--stack-6").html("No match in stack");
+        }
         if (domainSwitcher.hasMatch(tabUrl, _individualItems)){
             $(".test__match--individual").html("Match found <span>"+ domainSwitcher.hasMatch(tabUrl, _individualItems) + "</span>");
         } else {
             $(".test__match--individual").html("No individual match");
         }
 
-        if (stack === "secondary"){
+        if (stack === "secondary2"){
             _stackItems = _stackItems2;
+            results+= "--stack-2"
+        }
+        if (stack === "secondary3"){
+            _stackItems = _stackItems3;
+            results+= "--stack-3"
+        }
+        if (stack === "secondary4"){
+            _stackItems = _stackItems4;
+            results+= "--stack-4"
+        }
+        if (stack === "secondary5"){
+            _stackItems = _stackItems5;
+            results+= "--stack-5"
+        }
+        if (stack === "secondary6"){
+            _stackItems = _stackItems6;
+            results+= "--stack-6"
         }
 
-        menuItems = domainSwitcher.getAllSorted(tabUrl, _stackItems, [], [], _individualItems, "title");
+        menuItems = domainSwitcher.getAllSorted(tabUrl, _stackItems, [], [], [], [], [], _individualItems, "title");
 
         $(".test__results").empty();
 
@@ -61,7 +103,7 @@ $(document).ready(function(){
                 for (var i= 0,url, len = menuItems.length; i<len; i++){
                    if (menuItems[i].type !== "normal" || menuItems[i].url.startsWith("chrome")){continue;}
                    $(`<li data-current="${menuItems[i].current}">${getTitle(menuItems[i].title)} <span style="opacity: 0.4">(${getUrl(menuItems[i].url)})</span></li>`)
-                       .appendTo(".test__results");
+                       .appendTo( results );
                 }
             },300);
         }
