@@ -39,24 +39,26 @@ var domainSwitcher = {
         return match;
     },
     isActive: function(){
-        return options.getLocalStore("online", false, "boolean");
+        return options.getLocalStore("online", true, "boolean");
     },
     buildMenu: function(callBack){
-        var _stackItems = options.getLocalStore("key-value-pair-domain", "[]", "json"),
+        var _stackItems  = options.getLocalStore("key-value-pair-domain", "[]", "json"),
             _stackItems2 = options.getLocalStore("key-value-pair-domain-2", "[]", "json"),
             _stackItems3 = options.getLocalStore("key-value-pair-domain-3", "[]", "json"),
             _stackItems4 = options.getLocalStore("key-value-pair-domain-4", "[]", "json"),
             _stackItems5 = options.getLocalStore("key-value-pair-domain-5", "[]", "json"),
             _stackItems6 = options.getLocalStore("key-value-pair-domain-6", "[]", "json"),
             _individualItems = options.getLocalStore("key-value-pair-individual", "[]", "json"),
-            menuItems = [];
+            cleanQS = options.getLocalStore("strip-query-params", true, "boolean"),
+            menuItems = [], tabUrl;
         chrome.tabs.query({
             active: true,
             currentWindow: true
         }, function(tabs) {
             console.log(tabs);
             if (tabs.length && tabs[0].url) {
-                menuItems = domainSwitcher.getAllSorted(tabs[0].url, _stackItems, _stackItems2, _stackItems3, _stackItems4, _stackItems5, _stackItems6, _individualItems, "title");
+                tabUrl = cleanQS ? tabs[0].url.split("?")[0] : tabs[0].url ;
+                menuItems = domainSwitcher.getAllSorted(tabUrl, _stackItems, _stackItems2, _stackItems3, _stackItems4, _stackItems5, _stackItems6, _individualItems, "title");
             }
             callBack(menuItems);
         });
@@ -80,6 +82,9 @@ var domainSwitcher = {
             manifest = chrome.runtime.getManifest(),
             current;
 
+        menuItems = _.uniq(menuItems, function(item) {
+            return item.url;
+        });
         menuItems = _.sortBy(menuItems, sortBy || "title");
         current = _.findWhere(menuItems, {url: tabUrl});
         if (current){

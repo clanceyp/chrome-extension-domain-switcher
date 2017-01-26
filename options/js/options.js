@@ -213,6 +213,12 @@
                             .attr( "list", "datalist-"+ element.id )
                             .after( optionsForm.utils.getDatalistHTML(element.options, "datalist-"+ element.id) );
                     }
+                    if (element.labelSelector){
+                        $(element.labelSelector).text(value);
+                        $('#'+ element.id ).on('change',function(e){
+                            $(element.labelSelector).text($(e.target).val());
+                        })
+                    }
                 },
                 keyValue: function(element){
                     var data = element.data,
