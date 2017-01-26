@@ -215,7 +215,7 @@
                     }
                     if (element.labelSelector){
                         $(element.labelSelector).text(value);
-                        $('#'+ element.id ).on('change',function(e){
+                        $('#'+ element.id ).on('change keyup',function(e){
                             $(element.labelSelector).text($(e.target).val());
                         })
                     }
