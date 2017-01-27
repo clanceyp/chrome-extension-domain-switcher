@@ -40,6 +40,11 @@
 					box-shadow:4px 4px 10px rgba(0,0,0,0.5);}
 			}
 		</style>
+		<style>
+			[data-current="true"] {
+				color: chocolate;
+			}
+		</style>
 	</head>
 	<body class="appIcon">
 		<div class="settings">
@@ -85,41 +90,52 @@
 					</fieldset>
 
 					<div id="aem-help">
-						<h3>Example usage</h3>
-						<p>
-							By default this extension loads with an example AEM setup above, a number of servers per stack.
-							 <br/>
-							There maybe any number of stacks depending on the number of development streams
-							(e.g. dev1, dev2, dev3, uat1, uat2, preprod1, preprod2 etc...)
-						</p>
-						<p>Given that you are viewing a page on the dispatcher on dev1 (web.dev1.geometrixx.co.uk),
-							the links generated in the context menu would be
-							to; author.dev1..., publish.dev1... and www.incapsula.dev1... (i.e other servers in the dev1 env)
-							<br/>
-							Due to tapering environment structure you may want non-reciprocal links to a staging env and/or live environment,
-							to do this add a target URL adding "ignore" to the "Server match" column. This will be used
-							to generate links on pages lower down the stack, but not generate links when viewing the environment.
-							<br/> To add a link back from live to a sever your currently developing against, use the
-							"Individual Matches" section in the advanced settings section.
-						</p>
-					<pre><code>
-		author.dev1.geometrixx.co.uk:4502
-		publish.dev1.geometrixx.co.uk:4503
-		dispatcher.dev1.geometrixx.co.uk
-		www.incapsula.dev1.geometrixx.co.uk
-					</code></pre>
 						<p class="test">
-							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
+							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button" data-stack="primary">Test settings</button>
 						</p>
+						<p class="test__match test__match--stack"></p>
 						<ul class="test__results">
 
 						</ul>
-
+						<p><input name="alert-settings-button-1" type="button" id="alert-settings-button-1" class="settings__form-item settings__form-item--button" data-display-only="" data-key="key-value-pair-domain" data-edit-key-value-item="" value="Bulk Edit Stack"></p>
 						<p>
 							For RegExp help see <a href="https://regex101.com/">regex101.com</a>
 						</p>
+						<h3>Example usage</h3>
+						<p>
+							This extension loops though the <strong>"URL match"</strong> column and tries to match
+							the current URL, if it find a match it applies the replace values to all the
+							values in the <strong>"URL Replace"</strong> column.
+						</p>
+						<p>
+							There are a number of <strong>Additional stack</strong> this allows you to restrict
+							the amount of links you generate
+						</p>
+						<p>
+							Given that you are viewing a page on the dispatcher on dev1 (dispatcher.dev1.geometrixx.co.uk),
+							the links generated in the context menu would be
+							to; author.dev1..., publish.dev1... and www.dev1... (i.e other servers in the dev1 env)
+						</p>
+						<p>
+							Due to tapering environment structure you may want non-reciprocal links to a staging env and/or live environment,
+							to do this by adding <strong>"ignore"</strong> to the <strong>"URL match"</strong> column.
+						</p>
+						<p>
+							To add a link back from live to a sever your currently developing against, use the
+							<strong>"Individual matches"</strong> section.
+						</p>
 					</div>
 					<div id="aem-help-advanced">
+						<p class="test">
+							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
+						</p>
+						<p class="test__match test__match--individual"></p>
+						<ul class="test__results">
+
+						</ul>
+						<p>
+							For RegExp help see <a href="https://regex101.com/">regex101.com</a>
+						</p>
 						<h3>Example usage</h3>
 						<p>
 							Add single matches here, for example if you want a menu
@@ -129,20 +145,47 @@
 							<br/>
 							e.g.<br/> <code>http://www.geometrixx.co.uk/(.*)</code> <code>http://localhost:4503/$1.html</code>
 						</p>
-						<p class="test">
-							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
-						</p>
-						<ul class="test__results">
-
-						</ul>
-						<p>
-							For RegExp help see <a href="https://regex101.com/">regex101.com</a>
-						</p>
 					</div>
 
 				</form>
 			</main>
 		</div>
 		<span id="forkongithub"><a href="#" class="appHomepage_url">Fork me on GitHub</a></span>
+
+		<script type="text/template" id="test_template">
+			<div id="aem-help-secondary-<%= key %>">
+				<p class="test">
+					<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button" data-stack="secondary<%= key %>">Test settings</button>
+				</p>
+				<p class="test__match test__match--stack-<%= key %>"></p>
+				<ul class="test__results test__results--stack-<%= key %>">
+
+				</ul>
+				<p>
+					<input name="alert-settings-button-<%= key %>"
+						   type="button"
+						   id="alert-settings-button-<%= key %>"
+						   class="settings__form-item settings__form-item--button"
+						   data-display-only=""
+						   data-key="key-value-pair-domain-<%= key %>" data-edit-key-value-item="" value="Bulk edit">
+					<input name="alert-reset-button-<%= key %>"
+						   type="button"
+						   id="alert-reset-button-<%= key %>"
+						   class="settings__form-item settings__form-item--button"
+						   data-display-only=""
+						   data-key="key-value-pair-domain-<%= key %>" data-reset-key-value-item="" value="Reset to demo values">
+					<input name="alert-clear-button-<%= key %>"
+						   type="button"
+						   id="alert-clear-button-<%= key %>"
+						   class="settings__form-item settings__form-item--button"
+						   data-display-only=""
+						   data-key="key-value-pair-domain-<%= key %>" data-clear-key-value-item="" value="Empty this stack">
+
+				</p>
+				<p>
+					For RegExp help see <a href="https://regex101.com/">regex101.com</a>
+				</p>
+			</div>
+		</script>
 	</body>
 </html>
