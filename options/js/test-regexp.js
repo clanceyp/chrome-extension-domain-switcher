@@ -13,6 +13,7 @@ $(document).ready(function(){
             _stackItems5 = backgroundPage.options.getLocalStore("key-value-pair-domain-5", "{}", "json"),
             _stackItems6 = backgroundPage.options.getLocalStore("key-value-pair-domain-6", "{}", "json"),
             _individualItems = backgroundPage.options.getLocalStore("key-value-pair-individual", "{}", "json"),
+            _all = [].concat(_stackItems).concat(_stackItems2).concat(_stackItems3).concat(_stackItems4).concat(_stackItems5).concat(_stackItems6).concat(_individualItems),
             getTitle=function(url){
                 if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
                     return url.split("||")[0];
@@ -94,6 +95,8 @@ $(document).ready(function(){
         menuItems = domainSwitcher.getAllSorted(tabUrl, _stackItems, [], [], [], [], [], _individualItems, "title");
 
         $(".test__results").empty();
+
+        $(".status").html("Extension active: " + !!domainSwitcher.hasMatch(tabUrl, _all) );
 
         if (menuItems.length === 0){
             $("<li>No match found</li>")

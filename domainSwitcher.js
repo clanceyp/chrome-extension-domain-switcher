@@ -19,7 +19,7 @@ var domainSwitcher = {
                         .concat(_stackItems6)
                         .concat(individualItems);
 
-        return !!domainSwitcher.hasMatch(tabUrl, items);
+        return domainSwitcher.hasMatch(tabUrl, items);
     },
     hasMatch: function(tabUrl, items){
         var match = false,
@@ -32,7 +32,7 @@ var domainSwitcher = {
             }
             re = new RegExp(items[i].key);
             if (tabUrl.match(re)) {
-                match = items[i].key;
+                match = true;
                 break;
             }
         }
