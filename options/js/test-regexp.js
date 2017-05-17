@@ -13,6 +13,7 @@ $(document).ready(function(){
             _stackItems5 = backgroundPage.options.getLocalStore("key-value-pair-domain-5", "{}", "json"),
             _stackItems6 = backgroundPage.options.getLocalStore("key-value-pair-domain-6", "{}", "json"),
             _individualItems = backgroundPage.options.getLocalStore("key-value-pair-individual", "{}", "json"),
+            _all = [].concat(_stackItems).concat(_stackItems2).concat(_stackItems3).concat(_stackItems4).concat(_stackItems5).concat(_stackItems6).concat(_individualItems),
             getTitle=function(url){
                 if (url.indexOf("||") > -1){            // "Label||http://mydomain.com" = "Label"
                     return url.split("||")[0];
@@ -95,6 +96,8 @@ $(document).ready(function(){
 
         $(".test__results").empty();
 
+        $(".status").html("Extension active: " + !!domainSwitcher.hasMatch(tabUrl, _all) );
+
         if (menuItems.length === 0){
             $("<li>No match found</li>")
                 .appendTo(".test__results");
@@ -107,7 +110,6 @@ $(document).ready(function(){
                 }
             },300);
         }
-
     }
     function validate(e){
         var $el = $(e.target), text = $el.val() || "()(", re, ok = true, outline;
@@ -123,7 +125,21 @@ $(document).ready(function(){
             $el.removeClass("valid invalid").addClass(outline);
         }
     }
+    function isEmpty(e){
+        if (!e.target.value){
+            $(e.target).addClass("empty");
+        } else {
+            $(e.target).removeClass("empty");
+        }
+    }
     $(document).on('click', ".test__button", test);
+    $(document).on('keyup click', "[data-bind='value: key'], [data-bind='value: value']", isEmpty);
+    $(document).on('click', "[data-bind='click: addPair']", function(e){
+        $(e.target)
+            .closest("table")
+            .find("tbody tr:last-child [data-bind='value: key'], tbody tr:last-child [data-bind='value: value']")
+            .trigger("click");
+    });
     $(document).on('blur', "[data-bind='value: key']", validate);
     $(document).on('change', "[name='test__input']", function(e){
         var val = $(e.target).val();

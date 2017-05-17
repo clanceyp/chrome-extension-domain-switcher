@@ -24,10 +24,10 @@ var domainSwitcher = {
     hasMatch: function(tabUrl, items){
         var match = false,
             i = 0,
-            length = items.length,
+            length = items&&items.length||0,
             re;
         for (;i<length;i++){
-            if (items[i].key === "ignore"){
+            if (!items[i].key || items[i].key === "ignore"){
                 continue;
             }
             re = new RegExp(items[i].key);
