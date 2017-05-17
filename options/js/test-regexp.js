@@ -110,7 +110,6 @@ $(document).ready(function(){
                 }
             },300);
         }
-
     }
     function validate(e){
         var $el = $(e.target), text = $el.val() || "()(", re, ok = true, outline;
@@ -126,7 +125,21 @@ $(document).ready(function(){
             $el.removeClass("valid invalid").addClass(outline);
         }
     }
+    function isEmpty(e){
+        if (!e.target.value){
+            $(e.target).addClass("empty");
+        } else {
+            $(e.target).removeClass("empty");
+        }
+    }
     $(document).on('click', ".test__button", test);
+    $(document).on('keyup click', "[data-bind='value: key'], [data-bind='value: value']", isEmpty);
+    $(document).on('click', "[data-bind='click: addPair']", function(e){
+        $(e.target)
+            .closest("table")
+            .find("tbody tr:last-child [data-bind='value: key'], tbody tr:last-child [data-bind='value: value']")
+            .trigger("click");
+    });
     $(document).on('blur', "[data-bind='value: key']", validate);
     $(document).on('change', "[name='test__input']", function(e){
         var val = $(e.target).val();

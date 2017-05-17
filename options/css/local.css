@@ -11,3 +11,7 @@ pre code {
     display: block;
     line-height: 1.4;
 }
+input.empty,
+input.invalid {
+    outline: 2px solid tomato;
+}
