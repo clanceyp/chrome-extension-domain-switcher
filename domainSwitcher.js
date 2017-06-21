@@ -49,18 +49,27 @@ var domainSwitcher = {
             _stackItems5 = options.getLocalStore("key-value-pair-domain-5", "[]", "json"),
             _stackItems6 = options.getLocalStore("key-value-pair-domain-6", "[]", "json"),
             _individualItems = options.getLocalStore("key-value-pair-individual", "[]", "json"),
-            cleanQS = options.getLocalStore("strip-query-params", true, "boolean"),
-            menuItems = [], tabUrl;
+            getQS = function(tabUrl){
+                var cleanQS = options.getLocalStore("strip-query-params", false, "boolean"),
+                    tempUrl = tabUrl.split("?"),
+                    qs = "";
+                if (!cleanQS && tempUrl.length){
+                    qs = tempUrl[1];
+                }
+                return qs;
+            },
+            menuItems = [], tabUrl, qs;
         chrome.tabs.query({
             active: true,
             currentWindow: true
         }, function(tabs) {
             console.log(tabs);
             if (tabs.length && tabs[0].url) {
-                tabUrl = cleanQS ? tabs[0].url.split("?")[0] : tabs[0].url ;
+                qs = getQS(tabs[0].url);
+                tabUrl = tabs[0].url.split("?")[0];
                 menuItems = domainSwitcher.getAllSorted(tabUrl, _stackItems, _stackItems2, _stackItems3, _stackItems4, _stackItems5, _stackItems6, _individualItems, "title");
             }
-            callBack(menuItems);
+            callBack(menuItems, qs);
         });
     },
     getAllSorted: function(tabUrl, _stackItems, _stackItems2, _stackItems3, _stackItems4, _stackItems5, _stackItems6, _individualItems, sortBy){
