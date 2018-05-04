@@ -44,6 +44,11 @@
 			[data-current="true"] {
 				color: chocolate;
 			}
+			.test-content {
+				display: block;
+				margin-bottom: 8px;
+				width: 80%;
+			}
 		</style>
 	</head>
 	<body class="appIcon">
@@ -69,7 +74,19 @@
 							<p><strong class="appName"></strong></p>
 							<p>version: <strong class="appVersion"></strong></p>
 							<h3>Getting started</h3>
-							<p>Switch domain extension adds links to the right click context menu. It uses simple regular expressions to enable you to match domains and replace sections. This extension was developed primarily for use when you are working on a large project with many test servers.</p>
+							<p>Switch domain extension adds links to the same page on different domains. It uses simple regular
+								expressions to enable you to match domains and replace sections.
+								This extension was developed primarily for use when you are working on a large project
+								with many test servers.</p>
+							<h4>Stacks</h4>
+							<p>Setting up a stack
+
+							</p>
+							<table>
+								<caption>example stack</caption>
+								<tr><th>match</th><th>output</th></tr>
+								<tr><td>http://(.$).mydomain.com</td><td>http://$1.mydomain.com</td></tr>
+							</table>
 							<h3>Setting Form</h3>
 							<p>
 								This setting form is a vanilla implementation of
@@ -84,17 +101,22 @@
 								To reset all the setting back to the default setting, click on the
 								"Reset default options" button.
 							</p>
-							<p>WARNING: this extension has no presets values, so  resetting will just clear your settings.</p>
+							<p>WARNING: resetting the form will wipe all your settings.</p>
 							<p><input type="reset" value="Reset default options" /></p>
 						</div>
 					</fieldset>
 
 					<div id="aem-help">
 						<p class="test">
-							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button" data-stack="primary">Test settings</button>
+							<input name="test__input" class="test-content" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html">
+							<button class="test__button" data-stack="primary">Test settings</button>
 						</p>
-						<p class="test__match test__match--stack"></p>
+						<h3 class="test__match test__match--stack"></h3>
 						<ul class="test__results">
+
+						</ul>
+						<h3>All matches</h3>
+						<ul class="test__results_all">
 
 						</ul>
 						<p><input name="alert-settings-button-1" type="button" id="alert-settings-button-1" class="settings__form-item settings__form-item--button" data-display-only="" data-key="key-value-pair-domain" data-edit-key-value-item="" value="Bulk Edit Stack"></p>
@@ -127,7 +149,9 @@
 					</div>
 					<div id="aem-help-advanced">
 						<p class="test">
-							<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button">Test settings</button>
+							<input name="test__input" class="test-content" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html">
+
+							<button class="test__button">Test settings</button>
 						</p>
 						<p class="test__match test__match--individual"></p>
 						<ul class="test__results">
@@ -155,7 +179,8 @@
 		<script type="text/template" id="test_template">
 			<div id="aem-help-secondary-<%= key %>">
 				<p class="test">
-					<input name="test__input" style="width: 40%;" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html"> <button class="test__button" data-stack="secondary<%= key %>">Test settings</button>
+					<input name="test__input" class="test-content" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html">
+					<button class="test__button" data-stack="secondary<%= key %>">Test settings</button>
 				</p>
 				<p class="test__match test__match--stack-<%= key %>"></p>
 				<ul class="test__results test__results--stack-<%= key %>">

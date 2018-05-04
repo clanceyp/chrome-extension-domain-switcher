@@ -111,39 +111,48 @@ var domainSwitcher = {
     },
     getStack: function(tabUrl, items){
         var i= 0, length = items.length, menuItems=[], match = false;
-        for (;i<length;i++){
-            if (items[i].key === "ignore"){
-                continue;
-            }
-            var key = items[i].key;
-                re = new RegExp(key),
-                val = domainSwitcher.getURL(items[i].value),
-                id = domainSwitcher.menuItemId + performance.now(),
-                url = tabUrl;
-            if (url.match(re)) {
-                match = re;
-                if (match){
-                    break;
+        try {
+            for (; i < length; i++) {
+                if (!items[i].key || items[i].key === "ignore") {
+                    continue;
                 }
-            }
-        }
-        if (match){
-            for (i=0;i<length;i++){
-                var re = match,
+                var key = items[i].key;
+                re = new RegExp(key),
                     val = domainSwitcher.getURL(items[i].value),
                     id = domainSwitcher.menuItemId + performance.now(),
                     url = tabUrl;
                 if (url.match(re)) {
-                    console.log("\""+ url +"\".replace("+re.toString() +", \""+ val +"\")");
-                    url = url.replace(re, val);
-                    menuItems.push({
-                        "id": id,
-                        "url": domainSwitcher.cleanURL(url),
-                        "title": domainSwitcher.getTitle(items[i].value, url),
-                        "type": "normal"
-                    })
+                    match = re;
+                    if (match) {
+                        break;
+                    }
                 }
             }
+            if (match) {
+                for (i = 0; i < length; i++) {
+                    var re = match,
+                        val = domainSwitcher.getURL(items[i].value),
+                        id = domainSwitcher.menuItemId + performance.now(),
+                        url = tabUrl;
+                    if (url.match(re)) {
+                        console.log("\"" + url + "\".replace(" + re.toString() + ", \"" + val + "\")");
+                        url = url.replace(re, val);
+                        menuItems.push({
+                            "id": id,
+                            "url": domainSwitcher.cleanURL(url),
+                            "title": domainSwitcher.getTitle(items[i].value, url),
+                            "type": "normal"
+                        })
+                    }
+                }
+            }
+        } catch (e){
+            menuItems.push({
+                "id": "id-"+ performance.now(),
+                "url": "http://error.com",
+                "title": "error in config",
+                "type": "normal"
+            });
         }
         return menuItems;
     },
