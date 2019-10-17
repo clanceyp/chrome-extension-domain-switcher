@@ -162,29 +162,3 @@ $(document).ready(function(){
     })
     $("[name='test__input']").val( backgroundPage.options.getLocalStore("test__input", ""));
 });
-
-
-
-
-(function(cookieToDelete) {
-    var cookies = {},
-        c,
-        i = 0,
-        name,
-        value,
-        len;
-    if (document.cookie && document.cookie.length > 0) {
-        c = document.cookie.split(";");
-        len = c.length;
-        re = /^ /;
-        for (; i < len; i = i + 1) {
-            name = c[i].split("=").shift().replace(re,"");
-            value = c[i].substring(name.length+1)||"";
-            cookies[decodeURIComponent(name)] = decodeURIComponent(value);
-        }
-    }
-    if (cookies[cookieToDelete]){
-        document.cookie = cookieToDelete +'=; expires='+ (new Date(0).toUTCString()) +'; path=/; domain=.telegraph.co.uk'
-    }
-})("Ooyala");
-

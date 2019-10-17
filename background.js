@@ -6,7 +6,7 @@ var initPopup = function(tab) {
     chrome.tabs.get(tab.tabId,function(tab){
         domainSwitcher.setTabStatus(tab);
     });
-}
+};
 
 chrome.tabs.onActivated.addListener(initPopup);
 chrome.tabs.onCreated.addListener(initPopup);
@@ -15,5 +15,6 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
     if (request.action === "checkUrl" && sender && sender.tab){
         domainSwitcher.setTabStatus(sender.tab);
     }
+    return true;
 });
 

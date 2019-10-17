@@ -4,6 +4,7 @@ pre {
     padding: 6px;
     tab-size: 2;
 }
+pre.code,
 pre code {
     background-color: #333;
     border-radius: 3px;
@@ -14,4 +15,14 @@ pre code {
 input.empty,
 input.invalid {
     outline: 2px solid tomato;
+}
+.section-title-0__container {
+    display: none;
+}
+
+
+@media (min-width: 600px) {
+    .settings__navigation-item.selected .settings__navigation-link {
+        border-right: 1px solid #666;
+    }
 }

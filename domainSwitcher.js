@@ -30,7 +30,12 @@ var domainSwitcher = {
             if (!items[i].key || items[i].key === "ignore"){
                 continue;
             }
-            re = new RegExp(items[i].key);
+            try {
+                re = new RegExp(items[i].key);
+            } catch(e) {
+                console.log(e);
+                continue;
+            }
             if (tabUrl.match(re)) {
                 match = items[i].key;
                 break;
@@ -159,11 +164,20 @@ var domainSwitcher = {
     getIndividual: function(tabUrl, items){
         var i= 0, length = items.length, menuItems=[];
         for (;i<length;i++){
+            if (!items[i].key) {
+                continue;
+            }
             var key = items[i].key,
-                re = new RegExp(key),
+                re,
                 val = domainSwitcher.getURL(items[i].value),
                 id = domainSwitcher.menuItemId + performance.now(),
                 url = tabUrl;
+            try {
+                re = new RegExp(key);
+            } catch (e) {
+                console.log(e);
+                continue;
+            }
             if (url.match(re)) {
                 url = url.replace(re, val);
                 menuItems.push({
@@ -177,7 +191,7 @@ var domainSwitcher = {
         return menuItems;
     },
     setTabStatus: function(tab){
-        if (!domainSwitcher.isActive()){
+        if (!domainSwitcher.isActive() || !tab || !tab.url){
             chrome.pageAction.hide(tab.id);
             return;
         }
@@ -210,6 +224,8 @@ var domainSwitcher = {
         function replacer(match, p1, offset, string) {
             return match.substring(0, 2);
         }
-        return url.replace(/\/\.html/,'.html').replace(/[^:](\/\/+)/g, replacer);
+        return url.replace(/\/\.html/,'.html')
+                    .replace(/[^:](\/\/+)/g, replacer)
+                    .replace("/_jcr_", "/jcr%3A");
     }
 };
