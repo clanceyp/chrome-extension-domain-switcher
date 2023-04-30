@@ -191,15 +191,16 @@ var domainSwitcher = {
         return menuItems;
     },
     setTabStatus: function(tab){
+        return; // can't test at the moment
         if (!domainSwitcher.isActive() || !tab || !tab.url){
-            chrome.pageAction.hide(tab.id);
+            chrome.browserAction.setBadgeBackgroundColor({"color": "#888888", tabId: tab.id});
             return;
         }
         var isMatch = domainSwitcher.isMatch(tab.url);
         if (isMatch){
-            chrome.pageAction.show(tab.id);
+            chrome.browserAction.setBadgeBackgroundColor({"color": "#00ff00", tabId: tab.id});
         } else {
-            chrome.pageAction.hide(tab.id);
+            chrome.browserAction.setBadgeBackgroundColor({"color": "#ff0000", tabId: tab.id});
         }
     },
     getTitle: function(raw, url){

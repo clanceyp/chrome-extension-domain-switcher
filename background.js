@@ -18,3 +18,8 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
     return true;
 });
 
+chrome.browserAction.onClicked.addListener(function (tab) {
+    chrome.tabs.executeScript(tab.ib, {
+        file: "lib/js/content.js"
+    });
+});
