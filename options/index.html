@@ -1,217 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<script src="/options/js/vendor/zepto.js"></script>
-		<script src="/options/js/vendor/knockout.js"></script>
-		<script src="/options/js/vendor/knockout.reactor.js"></script>
-		<script src="/options/js/vendor/underscore.js"></script>
-		<script src="/options/js/manifest.js"></script>
-		<script src="/options/js/options.js"></script>
-		<script src="/options/js/test-regexp.js"></script>
-		<script src="/lib/js/options.js"></script>
-		<script src="/domainSwitcher.js"></script>
+    <head>
+        <script src="/options/js/vendor/zepto.js"></script>
+        <script src="/options/js/vendor/knockout.js"></script>
+        <script src="/options/js/vendor/knockout.reactor.js"></script>
+        <script src="/options/js/vendor/underscore.js"></script>
+        <script src="/options/js/manifest.js"></script>
+        <script src="/options/js/options.js"></script>
+        <script src="/options/js/test-regexp.js"></script>
+        <script src="/lib/js/options.js"></script>
+        <script src="/domainSwitcher.js"></script>
 
-		<link rel="stylesheet" href="/options/css/help.css"/>
-		<link rel="stylesheet" href="/options/css/options.css"/>
-		<link rel="stylesheet" href="/options/css/local.css"/>
+        <link rel="stylesheet" href="/options/css/help.css"/>
+        <link rel="stylesheet" href="/options/css/options.css"/>
+        <link rel="stylesheet" href="/options/css/local.css"/>
 
-		<title>Extension options</title>
+        <title>Extension options</title>
 
-		<!-- see http://codepo8.github.com/css-fork-on-github-ribbon/ -->
-		<style>
-			#forkongithub a{background:#333;color:#fff;text-decoration:none;font-family:arial,sans-serif;text-align:center;font-weight:bold;padding:5px 12px;font-size:10px;line-height:12px;position:relative;transition:0.5s;}
-			#forkongithub a:hover{background:#c11;color:#fff;}
-			#forkongithub a::before,#forkongithub a::after{content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#fff;}
-			#forkongithub a::after{bottom:1px;top:auto;}
-			@media screen and (max-width:400px){
-				#forkongithub,
-				#forkongithub a {display:block;padding: 0;}
-				#forkongithub a {margin: 0 -12px;}
-			}
-			@media screen and (min-width:400px){
-				#forkongithub {position:absolute;display:block;top:0;right:0;width:120px;overflow:hidden;height:120px;z-index:0;}
-				#forkongithub a {
-					top: 30px;
-					right: -30px;
-					position:absolute;
-					width:100%;
-					transform:rotate(45deg);
-					-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-moz-transform:rotate(45deg);-o-transform:rotate(45deg);
-					box-shadow:4px 4px 10px rgba(0,0,0,0.5);}
-			}
-		</style>
-		<style>
-			[data-current="true"] {
-				color: chocolate;
-			}
-			.test-content {
-				display: block;
-				margin-bottom: 8px;
-				width: 80%;
-			}
-		</style>
-	</head>
-	<body class="appIcon">
-		<div class="settings">
-			<header class="header">
-				<h1 class="header__heading"></h1>
-				<p>
-					Use the form below to enable/disable features
-				</p>
-			</header>
-			<nav class="settings__navigation settings__navigation--fixed">
-				<ul class="settings__navigation-list">
-					<li class="last settings__navigation-item"><a class="settings__navigation-link" href="#sectionAbout">About</a></li>
-				</ul>
-			</nav>
-			<main class="main">
+        <style>
+            [data-current="true"] {
+                color: chocolate;
+            }
+            .test-content {
+                display: block;
+                margin-bottom: 8px;
+                width: 80%;
+            }
+            .warning {
+                background-color: pink;
+                border: 1px dashed black;
+                line-height: 1.5;
+                padding: 2rem 4rem;
+                width: max-content;
+            }
+            .warning span {
+                display: block;
+            }
+            .warning span:first-child {
+                color: red;
+                font-size: 150%;
+            }
+        </style>
+    </head>
+    <body class="appIcon">
+        <div class="settings">
+            <header class="header">
+                <h1 class="warning">
+                    <span>!! WARNING THIS EXTENSION IS END OF LIFE !!</span>
 
-				<form class="settings__form">
-					<fieldset id="sectionAbout" class="settings__section relative">
-						<div>
+                    <span>
+                        Please see <a href="https://chromewebstore.google.com/detail/aem-url-blender/pdhidnighemlhffaiienaadbbjnknhdf">AEM URL Blender</a>
+                        as a possible replacement.
+                    </span>
+                </h1>
+                <h2 class="header__heading"></h2>
+                <p>
 
-							<h2>About</h2>
-							<p><strong class="appName"></strong></p>
-							<p>version: <strong class="appVersion"></strong></p>
-							<h3>Getting started</h3>
-							<p>Switch domain extension adds links to the same page on different domains. It uses simple regular
-								expressions to enable you to match domains and replace sections.
-								This extension was developed primarily for use when you are working on a large project
-								with many test servers.</p>
-							<h4>Stacks</h4>
-							<p>Setting up a stack
+                </p>
+            </header>
+            <nav class="settings__navigation settings__navigation--fixed">
+                <ul class="settings__navigation-list">
+                    <li class="last settings__navigation-item"><a class="settings__navigation-link" href="#sectionAbout">About</a></li>
+                </ul>
+            </nav>
+            <main class="main">
 
-							</p>
-							<table>
-								<caption>example stack</caption>
-								<tr><th>match</th><th>output</th></tr>
-								<tr><td>http://(.$).mydomain.com</td><td>http://$1.mydomain.com</td></tr>
-							</table>
-							<h3>Setting Form</h3>
-							<p>
-								This setting form is a vanilla implementation of
-								<a href="https://github.com/clanceyp/chrome-extension-settings-form">chrome-extension-options-form</a>
-							</p>
-							<p>
-								<a href="/options/test/jasmine/SpecRunner.html">Jasmine Spec Runner</a>
-							</p>
-							<iframe src="/options/test/jasmine/SpecRunner.html" style="width: 100%;height: 400px" frameborder="no"></iframe>
-							<h4>Reset settings</h4>
-							<p>
-								To reset all the setting back to the default setting, click on the
-								"Reset default options" button.
-							</p>
-							<p>WARNING: resetting the form will wipe all your settings.</p>
-							<p><input type="reset" value="Reset default options" /></p>
-						</div>
-					</fieldset>
+                <form class="settings__form">
+                    <fieldset id="sectionAbout" class="settings__section relative">
+                        <div>
 
-					<div id="aem-help">
-						<p class="test">
-							<input name="test__input" class="test-content" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html">
-							<button class="test__button" data-stack="primary">Test settings</button>
-						</p>
-						<h3 class="test__match test__match--stack"></h3>
-						<ul class="test__results">
+                            <h2>About</h2>
+                            <p><strong class="appName"></strong></p>
+                            <p>version: <strong class="appVersion"></strong></p>
+                            <h3>Getting started</h3>
+                            <p>Switch domain extension adds links to the same page on different domains. It uses simple regular
+                                expressions to enable you to match domains and replace sections.
+                                This extension was developed primarily for use when you are working on a large project
+                                with many test servers.</p>
+                            <h4>Stacks</h4>
+                            <p>Setting up a stack
 
-						</ul>
-						<h3>All matches</h3>
-						<ul class="test__results_all">
+                            </p>
+                            <table>
+                                <caption>example stack</caption>
+                                <tr><th>match</th><th>output</th></tr>
+                                <tr><td>http://(.$).mydomain.com</td><td>http://$1.mydomain.com</td></tr>
+                            </table>
+                            <h3>Setting Form</h3>
+                            <p>
+                                This setting form is a vanilla implementation of
+                                <a href="https://github.com/clanceyp/chrome-extension-settings-form">chrome-extension-options-form</a>
+                            </p>
+                            <p>
+                                <a href="/options/test/jasmine/SpecRunner.html">Jasmine Spec Runner</a>
+                            </p>
+                            <iframe src="/options/test/jasmine/SpecRunner.html" style="width: 100%;height: 400px" frameborder="no"></iframe>
+                            <h4>Reset settings</h4>
+                            <p>
+                                To reset all the setting back to the default setting, click on the
+                                "Reset default options" button.
+                            </p>
+                            <p>WARNING: resetting the form will wipe all your settings.</p>
+                            <p><input type="reset" value="Reset default options" /></p>
+                        </div>
+                    </fieldset>
 
-						</ul>
-						<p><input name="alert-settings-button-1" type="button" id="alert-settings-button-1" class="settings__form-item settings__form-item--button" data-display-only="" data-key="key-value-pair-domain" data-edit-key-value-item="" value="Bulk Edit Stack"></p>
-						<p>
-							For RegExp help see <a href="https://regex101.com/">regex101.com</a>
-						</p>
-						<h3>Example usage</h3>
-						<p>
-							This extension loops though the <strong>"URL match"</strong> column and tries to match
-							the current URL, if it find a match it applies the replace values to all the
-							values in the <strong>"URL Replace"</strong> column.
-						</p>
-						<p>
-							There are a number of <strong>Additional stack</strong> this allows you to restrict
-							the amount of links you generate
-						</p>
-						<p>
-							Given that you are viewing a page on the dispatcher on dev1 (dispatcher.dev1.geometrixx.co.uk),
-							the links generated in the context menu would be
-							to; author.dev1..., publish.dev1... and www.dev1... (i.e other servers in the dev1 env)
-						</p>
-						<p>
-							Due to tapering environment structure you may want non-reciprocal links to a staging env and/or live environment,
-							to do this by adding <strong>"ignore"</strong> to the <strong>"URL match"</strong> column.
-						</p>
-						<p>
-							To add a link back from live to a sever your currently developing against, use the
-							<strong>"Individual matches"</strong> section.
-						</p>
-					</div>
-					<div id="aem-help-advanced">
-						<p class="test">
-							<input name="test__input" class="test-content" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html">
+                    <div id="aem-help">
+                        <p class="test">
+                            <input name="test__input" class="test-content" placeholder="http://localhost:4502/content/wknd-events/react/home/first-article.html">
+                            <button class="test__button" data-stack="primary">Test settings</button>
+                        </p>
+                        <h3 class="test__match test__match--stack"></h3>
+                        <ul class="test__results">
 
-							<button class="test__button">Test settings</button>
-						</p>
-						<p class="test__match test__match--individual"></p>
-						<ul class="test__results">
+                        </ul>
+                        <h3>All matches</h3>
+                        <ul class="test__results_all">
 
-						</ul>
-						<p>
-							For RegExp help see <a href="https://regex101.com/">regex101.com</a>
-						</p>
-						<h3>Example usage</h3>
-						<p>
-							Add single matches here, for example if you want a menu
-							item from the live site to your local development instance
-							add the target URL your dev instance in the right hand column,
-							and the regexp for the URL you watch to match in the left.
-							<br/>
-							e.g.<br/> <code>http://www.geometrixx.co.uk/(.*)</code> <code>http://localhost:4503/$1.html</code>
-						</p>
-					</div>
+                        </ul>
+                        <p><input name="alert-settings-button-1" type="button" id="alert-settings-button-1" class="settings__form-item settings__form-item--button" data-display-only="" data-key="key-value-pair-domain" data-edit-key-value-item="" value="Bulk Edit Stack"></p>
+                        <p>
+                            For RegExp help see <a href="https://regex101.com/" target="_blank">regex101.com</a>
+                        </p>
+                        <h3>Example usage</h3>
+                        <p>
+                            This extension loops though the <strong data-match></strong> column and tries to match
+                            the current URL, if it finds a match it applies the regexp to ALL the
+                            values in the <strong data-replace></strong> column. Most likely you will have more
+                            URLs to generate than matches, in this case add 'ignore' in the matches column.
+                        </p>
+                        <p>
+                            The above can be quite confusing and hard to manage. To add one to one matches use the
+                            <a href="#advancedSettings" class="navigation-link-proxy">Individual matches</a> section.
+                        </p>
+                    </div>
+                    <div id="aem-help-advanced">
+                        <p class="test">
+                            <input name="test__input" class="test-content" placeholder="http://localhost:4502/content/wknd-events/react/home/first-article.html">
+                            <button class="test__button">Test settings</button>
+                        </p>
+                        <p class="test__match test__match--individual"></p>
+                        <ul class="test__results">
 
-				</form>
-			</main>
-		</div>
-		<span id="forkongithub"><a href="#" class="appHomepage_url">Fork me on GitHub</a></span>
+                        </ul>
+                        <p>
+                            For RegExp help see <a href="https://regex101.com/" target="_blank">regex101.com</a>
+                        </p>
+                        <h3>Example usage</h3>
+                        <p>
+                            Add single matches here. This section works differently from the others, here
+                            each RegExp will be individually tested against the current URL and if a match is found
+                            the replace value will be used.
+                        </p>
+                    </div>
 
-		<script type="text/template" id="test_template">
-			<div id="aem-help-secondary-<%= key %>">
-				<p class="test">
-					<input name="test__input" class="test-content" placeholder="http://author.dev1.geometrixx.co.uk:4502/cf#/content/path/to/my/page.html">
-					<button class="test__button" data-stack="secondary<%= key %>">Test settings</button>
-				</p>
-				<p class="test__match test__match--stack-<%= key %>"></p>
-				<ul class="test__results test__results--stack-<%= key %>">
+                </form>
+            </main>
+        </div>
 
-				</ul>
-				<p>
-					<input name="alert-settings-button-<%= key %>"
-						   type="button"
-						   id="alert-settings-button-<%= key %>"
-						   class="settings__form-item settings__form-item--button"
-						   data-display-only=""
-						   data-key="key-value-pair-domain-<%= key %>" data-edit-key-value-item="" value="Bulk edit">
-					<input name="alert-reset-button-<%= key %>"
-						   type="button"
-						   id="alert-reset-button-<%= key %>"
-						   class="settings__form-item settings__form-item--button"
-						   data-display-only=""
-						   data-key="key-value-pair-domain-<%= key %>" data-reset-key-value-item="" value="Reset to demo values">
-					<input name="alert-clear-button-<%= key %>"
-						   type="button"
-						   id="alert-clear-button-<%= key %>"
-						   class="settings__form-item settings__form-item--button"
-						   data-display-only=""
-						   data-key="key-value-pair-domain-<%= key %>" data-clear-key-value-item="" value="Empty this stack">
+        <script type="text/template" id="test_template">
+            <div id="aem-help-secondary-<%= key %>">
+                <p class="test">
+                    <input name="test__input" class="test-content" placeholder="http://localhost:4502/content/wknd-events/react/home/first-article.html">
+                    <button class="test__button" data-stack="secondary<%= key %>">Test settings</button>
+                </p>
+                <p class="test__match test__match--stack-<%= key %>"></p>
+                <ul class="test__results test__results--stack-<%= key %>">
 
-				</p>
-				<p>
-					For RegExp help see <a href="https://regex101.com/">regex101.com</a>
-				</p>
-				<p class="status"></p>
-			</div>
-		</script>
-	</body>
+                </ul>
+                <p>
+                    <input name="alert-settings-button-<%= key %>"
+                           type="button"
+                           id="alert-settings-button-<%= key %>"
+                           class="settings__form-item settings__form-item--button"
+                           data-display-only=""
+                           data-key="key-value-pair-domain-<%= key %>" data-edit-key-value-item="" value="Bulk edit">
+                    <input name="alert-reset-button-<%= key %>"
+                           type="button"
+                           id="alert-reset-button-<%= key %>"
+                           class="settings__form-item settings__form-item--button"
+                           data-display-only=""
+                           data-key="key-value-pair-domain-<%= key %>" data-reset-key-value-item="" value="Reset to demo values">
+                    <input name="alert-clear-button-<%= key %>"
+                           type="button"
+                           id="alert-clear-button-<%= key %>"
+                           class="settings__form-item settings__form-item--button"
+                           data-display-only=""
+                           data-key="key-value-pair-domain-<%= key %>" data-clear-key-value-item="" value="Empty this stack">
+                </p>
+                <p>
+                    For RegExp help see <a href="https://regex101.com/" target="_blank">regex101.com</a>
+                </p>
+                <p class="status"></p>
+            </div>
+        </script>
+    </body>
 </html>
